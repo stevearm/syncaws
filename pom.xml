@@ -7,6 +7,18 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>Generic java helper code</name>
 
+	<scm>
+		<connection>${horsefire.git.repo}/syncaws.git</connection>
+		<developerConnection>${horsefire.git.repo}/syncaws.git</developerConnection>
+		<url>${horsefire.git.repo}/syncaws.git</url>
+	</scm>
+
+	<parent>
+		<groupId>com.horsefire.maven</groupId>
+		<artifactId>common-pom</artifactId>
+		<version>0.1</version>
+	</parent>
+
 	<properties>
 		<slf4j.version>1.6.1</slf4j.version>
 	</properties>
@@ -50,7 +62,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jdk14</artifactId>
@@ -63,5 +75,18 @@
 			<version>4.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+			<version>1.18</version>
+		</dependency>
+
 	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>horsefire-maven-read-only</id>
+			<url>http://horsefire.s3.amazonaws.com/maven</url>
+		</repository>
+	</repositories>
 </project>
