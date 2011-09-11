@@ -18,7 +18,6 @@ public class InkStamp {
 			throw new IllegalArgumentException("Can only fingerprint folders");
 		}
 		final String baseline = dir.getAbsolutePath();
-		System.out.println("Baseline: " + baseline);
 		List<Md5File> list = m_engine.walkDir(dir, new FileNameConverter() {
 			public String getFileName(File file) {
 				String filepath = file.getAbsolutePath();

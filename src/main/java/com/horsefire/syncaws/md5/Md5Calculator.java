@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.google.inject.Inject;
-import com.horsefire.syncaws.util.NumberConverter;
+import com.horsefire.syncaws.NumberConverter;
 
 public class Md5Calculator {
 

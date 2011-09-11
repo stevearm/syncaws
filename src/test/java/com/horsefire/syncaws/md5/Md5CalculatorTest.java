@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.horsefire.syncaws.util.NumberConverter;
+import com.horsefire.syncaws.NumberConverter;
 
 public class Md5CalculatorTest extends TestCase {
 

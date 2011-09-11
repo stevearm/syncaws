@@ -40,7 +40,7 @@ public final class Md5File implements Comparable<Md5File> {
 
 	@Override
 	public String toString() {
-		return m_file + '(' + m_hash + ')';
+		return m_hash + ':' + m_file;
 	}
 
 	public int compareTo(Md5File o) {

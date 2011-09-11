@@ -1,4 +1,4 @@
-package com.horsefire.syncaws.util;
+package com.horsefire.syncaws;
 
 public class NumberConverter {
 

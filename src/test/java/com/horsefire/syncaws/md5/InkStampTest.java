@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.horsefire.syncaws.util.NumberConverter;
+import com.horsefire.syncaws.NumberConverter;
 
 public class InkStampTest extends TestCase {
 
@@ -29,5 +29,31 @@ public class InkStampTest extends TestCase {
 				"src/test/resources/typeA"));
 		Md5File file = fingerprint.getFiles().iterator().next();
 		assertEquals(FILE_A, file);
+	}
+
+	@Test
+	public void testIdenticalDirs() {
+		Fingerprint fingerprintA = m_stamp.createNew(new File(
+				"src/test/resources/typeA"));
+		Fingerprint fingerprintA2 = m_stamp.createNew(new File(
+				"src/test/resources/typeA2"));
+		assertTrue(fingerprintA.equals(fingerprintA2));
+		assertTrue(fingerprintA2.equals(fingerprintA));
+	}
+
+	@Test
+	public void testDifferentDirs() {
+		Fingerprint fingerprintA = m_stamp.createNew(new File(
+				"src/test/resources/typeA"));
+		Fingerprint fingerprintB = m_stamp.createNew(new File(
+				"src/test/resources/typeB"));
+		Fingerprint fingerprintC = m_stamp.createNew(new File(
+				"src/test/resources/typeC"));
+		assertFalse(fingerprintA.equals(fingerprintB));
+		assertFalse(fingerprintB.equals(fingerprintA));
+		assertFalse(fingerprintA.equals(fingerprintC));
+		assertFalse(fingerprintC.equals(fingerprintA));
+		assertFalse(fingerprintB.equals(fingerprintC));
+		assertFalse(fingerprintC.equals(fingerprintB));
 	}
 }

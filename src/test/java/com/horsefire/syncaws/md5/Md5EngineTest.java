@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.horsefire.syncaws.util.NumberConverter;
+import com.horsefire.syncaws.NumberConverter;
 
 public class Md5EngineTest extends TestCase {
 
@@ -31,7 +31,7 @@ public class Md5EngineTest extends TestCase {
 
 	@Test
 	public void testFileList() {
-		File dir = new File("src/test/resources");
+		File dir = new File("src/test/resources/md5");
 		Md5Engine engine = new Md5Engine(new Md5Calculator(
 				new NumberConverter()));
 		for (Md5File file : engine.walkDir(dir)) {
