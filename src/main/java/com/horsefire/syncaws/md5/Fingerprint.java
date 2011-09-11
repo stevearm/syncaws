@@ -21,6 +21,9 @@ public final class Fingerprint {
 
 	@Override
 	public int hashCode() {
+		// This is obviously terribly inefficient, but since I'll never be
+		// putting this file into a hash map, I just wanted this to be correct,
+		// and didn't bother with fast
 		return 1;
 	}
 
@@ -51,12 +54,67 @@ public final class Fingerprint {
 		return result.toString();
 	}
 
-	public Diff getDiff(Fingerprint other) {
-		throw new UnsupportedOperationException();
+	public Diff diff(Fingerprint other) {
+		List<Md5File> removed = new ArrayList<Md5File>();
+		List<Md5File> added = new ArrayList<Md5File>();
+
+		List<Md5File> oldFiles = new ArrayList<Md5File>(m_files);
+		List<Md5File> newFiles = new ArrayList<Md5File>(other.m_files);
+		while (!oldFiles.isEmpty() && !newFiles.isEmpty()) {
+			Md5File oldFile = oldFiles.get(0);
+			if (oldFile.equals(newFiles.get(0))) {
+				oldFiles.remove(0);
+				newFiles.remove(0);
+				continue;
+			}
+			int newFileIndex = -1;
+			for (int i = 0; i < newFiles.size(); i++) {
+				if (oldFile.equals(newFiles.get(i))) {
+					newFileIndex = i;
+					break;
+				}
+			}
+			while (newFileIndex > 0) {
+				added.add(newFiles.remove(0));
+				newFileIndex--;
+			}
+			if (newFileIndex == -1) {
+				removed.add(oldFiles.remove(0));
+			}
+		}
+		if (!oldFiles.isEmpty()) {
+			removed.addAll(oldFiles);
+		}
+		if (!newFiles.isEmpty()) {
+			added.addAll(newFiles);
+		}
+
+		return new DiffImpl(added, removed);
 	}
 
-	public static final class Diff {
-		public final List<Md5File> added = new ArrayList<Md5File>();
-		public final List<Md5File> removed = new ArrayList<Md5File>();
+	public static interface Diff {
+		List<Md5File> addedFiles();
+
+		List<Md5File> removedFiles();
+	}
+
+	private static final class DiffImpl implements Diff {
+		private final List<Md5File> m_added;
+		private final List<Md5File> m_removed;
+
+		public DiffImpl(List<Md5File> added, List<Md5File> removed) {
+			Collections.sort(added);
+			m_added = Collections.unmodifiableList(added);
+			Collections.sort(removed);
+			m_removed = Collections.unmodifiableList(removed);
+		}
+
+		public List<Md5File> addedFiles() {
+			return m_added;
+		}
+
+		public List<Md5File> removedFiles() {
+			return m_removed;
+		}
 	}
 }

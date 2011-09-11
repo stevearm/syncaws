@@ -6,10 +6,10 @@ public final class Md5File implements Comparable<Md5File> {
 	private final String m_hash;
 
 	public Md5File(String file, String hash) {
-		if (file == null || hash == null) {
+		if (file == null || file.isEmpty() || hash == null || hash.isEmpty()) {
 			throw new NullPointerException();
 		}
-		m_file = file;
+		m_file = file.replaceAll("\\\\", "/");
 		m_hash = hash;
 	}
 
