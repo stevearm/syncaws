@@ -1,11 +1,11 @@
-package com.horsefire.syncaws.md5;
+package com.horsefire.syncaws.fingerprint;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
 
-import com.horsefire.syncaws.md5.Fingerprint.Diff;
+import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
 
 public class FingerprintTest extends TestCase {
 

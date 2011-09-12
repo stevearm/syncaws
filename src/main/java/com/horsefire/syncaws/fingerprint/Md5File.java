@@ -1,4 +1,4 @@
-package com.horsefire.syncaws.md5;
+package com.horsefire.syncaws.fingerprint;
 
 public final class Md5File implements Comparable<Md5File> {
 

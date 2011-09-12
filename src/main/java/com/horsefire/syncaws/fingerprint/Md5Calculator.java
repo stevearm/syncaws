@@ -1,4 +1,4 @@
-package com.horsefire.syncaws.md5;
+package com.horsefire.syncaws.fingerprint;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -8,7 +8,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.google.inject.Inject;
-import com.horsefire.syncaws.NumberConverter;
 
 public class Md5Calculator {
 

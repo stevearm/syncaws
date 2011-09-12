@@ -1,4 +1,4 @@
-package com.horsefire.syncaws.md5;
+package com.horsefire.syncaws.fingerprint;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,8 +6,6 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.junit.Test;
-
-import com.horsefire.syncaws.NumberConverter;
 
 public class Md5CalculatorTest extends TestCase {
 

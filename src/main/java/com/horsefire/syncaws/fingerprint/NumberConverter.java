@@ -1,4 +1,4 @@
-package com.horsefire.syncaws;
+package com.horsefire.syncaws.fingerprint;
 
 public class NumberConverter {
 

@@ -1,4 +1,4 @@
-package com.horsefire.syncaws.md5;
+package com.horsefire.syncaws.fingerprint;
 
 import java.io.File;
 
@@ -6,8 +6,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.horsefire.syncaws.NumberConverter;
-import com.horsefire.syncaws.md5.Fingerprint.Diff;
+import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
 
 public class InkStampTest extends TestCase {
 
@@ -19,9 +18,8 @@ public class InkStampTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Md5Engine engine = new Md5Engine(new Md5Calculator(
-				new NumberConverter()));
-		m_stamp = new InkStamp(engine);
+		m_stamp = new InkStamp(new Md5Calculator(new NumberConverter()),
+				new DirectoryWalker<Md5File>());
 	}
 
 	@Test

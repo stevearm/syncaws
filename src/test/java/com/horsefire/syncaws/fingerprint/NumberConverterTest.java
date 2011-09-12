@@ -1,10 +1,8 @@
-package com.horsefire.syncaws;
+package com.horsefire.syncaws.fingerprint;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
-
-import com.horsefire.syncaws.NumberConverter;
 
 public class NumberConverterTest extends TestCase {
 
