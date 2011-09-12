@@ -9,12 +9,12 @@ import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
 
 public class FingerprintTest extends TestCase {
 
-	private static final Md5File FILE_1 = new Md5File("fileA", "AD434EA");
-	private static final Md5File FILE_2 = new Md5File("fileB", "AD434EA");
+	public static final Md5File FILE_1 = new Md5File("fileA", "AD434EA4");
+	public static final Md5File FILE_2 = new Md5File("fileB", "AD475329");
 	private static final String FILENAME_3 = "folder/fileC";
-	private static final Md5File FILE_3 = new Md5File(FILENAME_3, "AD434EA");
+	private static final Md5File FILE_3 = new Md5File(FILENAME_3, "2435FF3A");
 
-	private Fingerprint create(Md5File... files) {
+	public static Fingerprint create(Md5File... files) {
 		List<Md5File> fileList = new ArrayList<Md5File>();
 		for (Md5File file : files) {
 			fileList.add(file);
