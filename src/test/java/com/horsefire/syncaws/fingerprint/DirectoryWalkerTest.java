@@ -14,7 +14,7 @@ public class DirectoryWalkerTest extends TestCase {
 
 	@Test
 	public void testFileList() {
-		File dir = new File("src/test/resources/md5");
+		File dir = new File("src/test/resources/sampleFiles/md5");
 		DirectoryWalker<String> engine = new DirectoryWalker<String>();
 		List<String> dirList = engine.walkDir(dir, new FileProcessor<String>() {
 			public String process(File file) {

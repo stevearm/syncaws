@@ -20,7 +20,8 @@ public class Md5CalculatorTest extends TestCase {
 		Md5Calculator md5Calc = new Md5Calculator(new NumberConverter());
 		String hash = file.split("\\.")[0].toUpperCase();
 		String result = md5Calc.getMd5String(
-				new File("src/test/resources/md5/" + file)).toUpperCase();
+				new File("src/test/resources/sampleFiles/md5/" + file))
+				.toUpperCase();
 		assertEquals(hash, result);
 	}
 }

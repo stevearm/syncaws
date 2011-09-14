@@ -12,6 +12,7 @@ public class InkStampTest extends TestCase {
 
 	private static final Md5File FILE_A = new Md5File("mysite.html",
 			"59C9A5690432939EC043B23E6D06B3FB");
+	private static final String FILE_BASE = "src/test/resources/sampleFiles";
 
 	private InkStamp m_stamp;
 
@@ -24,18 +25,18 @@ public class InkStampTest extends TestCase {
 
 	@Test
 	public void testCreateNew() throws Exception {
-		Fingerprint fingerprint = m_stamp.createNew(new File(
-				"src/test/resources/typeA"));
+		Fingerprint fingerprint = m_stamp.createNew(new File(FILE_BASE
+				+ "/typeA"));
 		Md5File file = fingerprint.getFiles().iterator().next();
 		assertEquals(FILE_A, file);
 	}
 
 	@Test
 	public void testIdenticalDirs() {
-		Fingerprint fingerprintA = m_stamp.createNew(new File(
-				"src/test/resources/typeA"));
-		Fingerprint fingerprintA2 = m_stamp.createNew(new File(
-				"src/test/resources/typeA2"));
+		Fingerprint fingerprintA = m_stamp.createNew(new File(FILE_BASE
+				+ "/typeA"));
+		Fingerprint fingerprintA2 = m_stamp.createNew(new File(FILE_BASE
+				+ "/typeA2"));
 		assertTrue(fingerprintA.equals(fingerprintA2));
 		assertTrue(fingerprintA2.equals(fingerprintA));
 		Diff diff = fingerprintA.diff(fingerprintA2);
@@ -45,10 +46,10 @@ public class InkStampTest extends TestCase {
 
 	@Test
 	public void testDifferentDirs() {
-		Fingerprint fingerprintA = m_stamp.createNew(new File(
-				"src/test/resources/typeA"));
-		Fingerprint fingerprintB = m_stamp.createNew(new File(
-				"src/test/resources/typeB"));
+		Fingerprint fingerprintA = m_stamp.createNew(new File(FILE_BASE
+				+ "/typeA"));
+		Fingerprint fingerprintB = m_stamp.createNew(new File(FILE_BASE
+				+ "/typeB"));
 		assertFalse(fingerprintA.equals(fingerprintB));
 		assertFalse(fingerprintB.equals(fingerprintA));
 		Diff diff = fingerprintA.diff(fingerprintB);
@@ -57,8 +58,8 @@ public class InkStampTest extends TestCase {
 		assertEquals(1, diff.removedFiles().size());
 		assertEquals("notes.txt", diff.removedFiles().get(0).getFile());
 
-		Fingerprint fingerprintC = m_stamp.createNew(new File(
-				"src/test/resources/typeC"));
+		Fingerprint fingerprintC = m_stamp.createNew(new File(FILE_BASE
+				+ "/typeC"));
 		assertFalse(fingerprintA.equals(fingerprintC));
 		assertFalse(fingerprintC.equals(fingerprintA));
 		diff = fingerprintA.diff(fingerprintC);
@@ -76,9 +77,5 @@ public class InkStampTest extends TestCase {
 		assertEquals(2, diff.removedFiles().size());
 		assertEquals("notes.txt", diff.removedFiles().get(0).getFile());
 		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(1).getFile());
-	}
-
-	@Test
-	public void testSaveFingerprint() {
 	}
 }
