@@ -10,24 +10,23 @@ import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
 
 public class InkStampTest extends TestCase {
 
-	private static final Md5File FILE_A = new Md5File("mysite.html",
-			"59C9A5690432939EC043B23E6D06B3FB");
+	private static final FileInfo FILE_A = new FileInfo("mysite.html",
+			"59C9A5690432939EC043B23E6D06B3FB", 22837);
 	private static final String FILE_BASE = "src/test/resources/sampleFiles";
 
 	private InkStamp m_stamp;
 
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
 		m_stamp = new InkStamp(new Md5Calculator(new NumberConverter()),
-				new DirectoryWalker<Md5File>());
+				new DirectoryWalker<FileInfo>());
 	}
 
 	@Test
 	public void testCreateNew() throws Exception {
 		Fingerprint fingerprint = m_stamp.createNew(new File(FILE_BASE
 				+ "/typeA"));
-		Md5File file = fingerprint.getFiles().iterator().next();
+		FileInfo file = fingerprint.getFiles().iterator().next();
 		assertEquals(FILE_A, file);
 	}
 
@@ -54,9 +53,9 @@ public class InkStampTest extends TestCase {
 		assertFalse(fingerprintB.equals(fingerprintA));
 		Diff diff = fingerprintA.diff(fingerprintB);
 		assertEquals(1, diff.addedFiles().size());
-		assertEquals("notes.txt", diff.addedFiles().get(0).getFile());
+		assertEquals("notes.txt", diff.addedFiles().get(0).getPath());
 		assertEquals(1, diff.removedFiles().size());
-		assertEquals("notes.txt", diff.removedFiles().get(0).getFile());
+		assertEquals("notes.txt", diff.removedFiles().get(0).getPath());
 
 		Fingerprint fingerprintC = m_stamp.createNew(new File(FILE_BASE
 				+ "/typeC"));
@@ -64,18 +63,18 @@ public class InkStampTest extends TestCase {
 		assertFalse(fingerprintC.equals(fingerprintA));
 		diff = fingerprintA.diff(fingerprintC);
 		assertEquals(1, diff.addedFiles().size());
-		assertEquals("pics/fry.jpg", diff.addedFiles().get(0).getFile());
+		assertEquals("pics/fry.jpg", diff.addedFiles().get(0).getPath());
 		assertEquals(1, diff.removedFiles().size());
-		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(0).getFile());
+		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(0).getPath());
 
 		assertFalse(fingerprintB.equals(fingerprintC));
 		assertFalse(fingerprintC.equals(fingerprintB));
 		diff = fingerprintB.diff(fingerprintC);
 		assertEquals(2, diff.addedFiles().size());
-		assertEquals("notes.txt", diff.addedFiles().get(0).getFile());
-		assertEquals("pics/fry.jpg", diff.addedFiles().get(1).getFile());
+		assertEquals("notes.txt", diff.addedFiles().get(0).getPath());
+		assertEquals("pics/fry.jpg", diff.addedFiles().get(1).getPath());
 		assertEquals(2, diff.removedFiles().size());
-		assertEquals("notes.txt", diff.removedFiles().get(0).getFile());
-		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(1).getFile());
+		assertEquals("notes.txt", diff.removedFiles().get(0).getPath());
+		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(1).getPath());
 	}
 }

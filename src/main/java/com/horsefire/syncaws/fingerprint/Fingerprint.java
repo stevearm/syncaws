@@ -7,15 +7,15 @@ import java.util.List;
 
 public final class Fingerprint {
 
-	private final List<Md5File> m_files;
+	private final List<FileInfo> m_files;
 
-	public Fingerprint(List<Md5File> files) {
-		ArrayList<Md5File> list = new ArrayList<Md5File>(files);
+	public Fingerprint(List<FileInfo> files) {
+		ArrayList<FileInfo> list = new ArrayList<FileInfo>(files);
 		Collections.sort(list);
 		m_files = Collections.unmodifiableList(list);
 	}
 
-	public List<Md5File> getFiles() {
+	public List<FileInfo> getFiles() {
 		return m_files;
 	}
 
@@ -36,8 +36,8 @@ public final class Fingerprint {
 		if (m_files.size() != that.m_files.size()) {
 			return false;
 		}
-		Iterator<Md5File> it = that.m_files.iterator();
-		for (Md5File file : m_files) {
+		Iterator<FileInfo> it = that.m_files.iterator();
+		for (FileInfo file : m_files) {
 			if (!file.equals(it.next())) {
 				return false;
 			}
@@ -45,9 +45,14 @@ public final class Fingerprint {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Fingerprint:" + m_files.size() + "files";
+	}
+
 	public String showFiles() {
 		StringBuilder result = new StringBuilder();
-		for (Md5File file : m_files) {
+		for (FileInfo file : m_files) {
 			result.append(file);
 			result.append('\n');
 		}
@@ -55,13 +60,13 @@ public final class Fingerprint {
 	}
 
 	public Diff diff(Fingerprint other) {
-		List<Md5File> removed = new ArrayList<Md5File>();
-		List<Md5File> added = new ArrayList<Md5File>();
+		List<FileInfo> removed = new ArrayList<FileInfo>();
+		List<FileInfo> added = new ArrayList<FileInfo>();
 
-		List<Md5File> oldFiles = new ArrayList<Md5File>(m_files);
-		List<Md5File> newFiles = new ArrayList<Md5File>(other.m_files);
+		List<FileInfo> oldFiles = new ArrayList<FileInfo>(m_files);
+		List<FileInfo> newFiles = new ArrayList<FileInfo>(other.m_files);
 		while (!oldFiles.isEmpty() && !newFiles.isEmpty()) {
-			Md5File oldFile = oldFiles.get(0);
+			FileInfo oldFile = oldFiles.get(0);
 			if (oldFile.equals(newFiles.get(0))) {
 				oldFiles.remove(0);
 				newFiles.remove(0);
@@ -93,27 +98,27 @@ public final class Fingerprint {
 	}
 
 	public static interface Diff {
-		List<Md5File> addedFiles();
+		List<FileInfo> addedFiles();
 
-		List<Md5File> removedFiles();
+		List<FileInfo> removedFiles();
 	}
 
 	private static final class DiffImpl implements Diff {
-		private final List<Md5File> m_added;
-		private final List<Md5File> m_removed;
+		private final List<FileInfo> m_added;
+		private final List<FileInfo> m_removed;
 
-		public DiffImpl(List<Md5File> added, List<Md5File> removed) {
+		public DiffImpl(List<FileInfo> added, List<FileInfo> removed) {
 			Collections.sort(added);
 			m_added = Collections.unmodifiableList(added);
 			Collections.sort(removed);
 			m_removed = Collections.unmodifiableList(removed);
 		}
 
-		public List<Md5File> addedFiles() {
+		public List<FileInfo> addedFiles() {
 			return m_added;
 		}
 
-		public List<Md5File> removedFiles() {
+		public List<FileInfo> removedFiles() {
 			return m_removed;
 		}
 	}
