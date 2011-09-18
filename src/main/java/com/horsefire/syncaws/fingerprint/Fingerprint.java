@@ -2,17 +2,31 @@ package com.horsefire.syncaws.fingerprint;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.joda.time.DateTime;
+
+import com.google.gson.annotations.SerializedName;
 
 public final class Fingerprint {
 
+	@SerializedName("generated")
+	private final DateTime m_generated;
+
+	@SerializedName("files")
 	private final List<FileInfo> m_files;
 
-	public Fingerprint(List<FileInfo> files) {
+	public Fingerprint(DateTime generated, List<FileInfo> files) {
+		m_generated = generated;
 		ArrayList<FileInfo> list = new ArrayList<FileInfo>(files);
 		Collections.sort(list);
 		m_files = Collections.unmodifiableList(list);
+	}
+
+	public DateTime getGenerated() {
+		return m_generated;
 	}
 
 	public List<FileInfo> getFiles() {
@@ -21,10 +35,7 @@ public final class Fingerprint {
 
 	@Override
 	public int hashCode() {
-		// This is obviously terribly inefficient, but since I'll never be
-		// putting this file into a hash map, I just wanted this to be correct,
-		// and didn't bother with fast
-		return 1;
+		return new HashCodeBuilder().append(m_files).toHashCode();
 	}
 
 	@Override
@@ -33,16 +44,7 @@ public final class Fingerprint {
 			return false;
 		}
 		final Fingerprint that = (Fingerprint) obj;
-		if (m_files.size() != that.m_files.size()) {
-			return false;
-		}
-		Iterator<FileInfo> it = that.m_files.iterator();
-		for (FileInfo file : m_files) {
-			if (!file.equals(it.next())) {
-				return false;
-			}
-		}
-		return true;
+		return new EqualsBuilder().append(m_files, that.m_files).isEquals();
 	}
 
 	@Override

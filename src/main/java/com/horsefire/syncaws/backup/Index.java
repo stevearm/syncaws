@@ -8,14 +8,20 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
+import com.google.gson.annotations.SerializedName;
+
 public final class Index {
 
+	@SerializedName("generated")
 	private final DateTime m_generated;
+
+	@SerializedName("lastIndex")
 	private final String m_lastIndex;
+
+	@SerializedName("files")
 	private final List<UploadedFile> m_files;
 
-	public Index(DateTime generated, String lastIndex,
-			List<UploadedFile> files) {
+	public Index(DateTime generated, String lastIndex, List<UploadedFile> files) {
 		m_generated = generated;
 		m_lastIndex = lastIndex;
 		List<UploadedFile> fileList = new ArrayList<UploadedFile>(files);
@@ -37,8 +43,8 @@ public final class Index {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(m_generated)
-				.append(m_lastIndex).toHashCode();
+		return new HashCodeBuilder().append(m_generated).append(m_lastIndex)
+				.toHashCode();
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package com.horsefire.syncaws.fingerprint;
 import java.io.File;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.google.inject.Inject;
 import com.horsefire.syncaws.fingerprint.DirectoryWalker.FileProcessor;
 
@@ -22,6 +24,7 @@ public class InkStamp {
 		if (!dir.isDirectory()) {
 			throw new IllegalArgumentException("Can only fingerprint folders");
 		}
+		final DateTime generationTime = new DateTime();
 		final String baseline = dir.getAbsolutePath();
 		List<FileInfo> list = m_dirWalker.walkDir(dir,
 				new FileProcessor<FileInfo>() {
@@ -31,9 +34,9 @@ public class InkStamp {
 							filepath = filepath.substring(baseline.length() + 1);
 						}
 						return new FileInfo(filepath, m_md5Calculator
-								.getMd5String(file), file.length());
+								.getMd5String(file));
 					}
 				});
-		return new Fingerprint(list);
+		return new Fingerprint(generationTime, list);
 	}
 }

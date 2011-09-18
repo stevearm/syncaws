@@ -5,22 +5,23 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.joda.time.DateTime;
+
 import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
 
 public class FingerprintTest extends TestCase {
 
-	public static final FileInfo FILE_1 = new FileInfo("fileA", "AD434EA4", 200);
-	public static final FileInfo FILE_2 = new FileInfo("fileB", "AD475329", 200);
+	public static final FileInfo FILE_1 = new FileInfo("fileA", "AD434EA4");
+	public static final FileInfo FILE_2 = new FileInfo("fileB", "AD475329");
 	private static final String FILENAME_3 = "folder/fileC";
-	private static final FileInfo FILE_3 = new FileInfo(FILENAME_3, "2435FF3A",
-			200);
+	private static final FileInfo FILE_3 = new FileInfo(FILENAME_3, "2435FF3A");
 
 	public static Fingerprint create(FileInfo... files) {
 		List<FileInfo> fileList = new ArrayList<FileInfo>();
 		for (FileInfo file : files) {
 			fileList.add(file);
 		}
-		return new Fingerprint(fileList);
+		return new Fingerprint(new DateTime(), fileList);
 	}
 
 	public void testEqualsOutOfOrder() {
@@ -43,7 +44,7 @@ public class FingerprintTest extends TestCase {
 		assertTrue(diff.addedFiles().isEmpty());
 		assertTrue(diff.removedFiles().isEmpty());
 
-		FileInfo md5File = new FileInfo("folder/fileD", "EE321A8", 200);
+		FileInfo md5File = new FileInfo("folder/fileD", "EE321A8");
 		Fingerprint addedFingerprint = create(FILE_1, FILE_2, FILE_3, md5File);
 		diff = baseFingerprint.diff(addedFingerprint);
 		assertEquals(1, diff.addedFiles().size());

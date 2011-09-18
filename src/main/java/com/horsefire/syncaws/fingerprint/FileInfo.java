@@ -1,21 +1,30 @@
 package com.horsefire.syncaws.fingerprint;
 
+import com.google.gson.annotations.SerializedName;
 
 public final class FileInfo implements Comparable<FileInfo> {
 
+	@SerializedName("path")
 	private final String m_path;
-	private final String m_md5;
-	private final long m_bytes;
-	private final String m_key;
 
-	public FileInfo(String path, String md5, long bytes) {
+	@SerializedName("md5")
+	private final String m_md5;
+
+	private transient String m_key;
+
+	public FileInfo(String path, String md5) {
 		if (path == null || path.isEmpty() || md5 == null || md5.isEmpty()) {
 			throw new NullPointerException();
 		}
 		m_path = path.replaceAll("\\\\", "/");
 		m_md5 = md5;
-		m_bytes = bytes;
-		m_key = m_path + ':' + m_md5 + ':' + m_bytes;
+	}
+
+	private String getKey() {
+		if (m_key == null) {
+			m_key = m_path + ':' + m_md5;
+		}
+		return m_key;
 	}
 
 	public String getPath() {
@@ -26,13 +35,9 @@ public final class FileInfo implements Comparable<FileInfo> {
 		return m_md5;
 	}
 
-	public long getBytes() {
-		return m_bytes;
-	}
-
 	@Override
 	public int hashCode() {
-		return m_key.hashCode();
+		return getKey().hashCode();
 	}
 
 	@Override
@@ -40,15 +45,15 @@ public final class FileInfo implements Comparable<FileInfo> {
 		if (obj.getClass() != FileInfo.class) {
 			return false;
 		}
-		return m_key.equals(((FileInfo) obj).m_key);
+		return getKey().equals(((FileInfo) obj).getKey());
 	}
 
 	@Override
 	public String toString() {
-		return m_key;
+		return getKey();
 	}
 
 	public int compareTo(FileInfo o) {
-		return m_key.compareTo(o.m_key);
+		return getKey().compareTo(o.getKey());
 	}
 }

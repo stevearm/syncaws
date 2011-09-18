@@ -1,30 +1,56 @@
 package com.horsefire.syncaws.backup;
 
-import com.horsefire.syncaws.fingerprint.FileInfo;
+import com.google.gson.annotations.SerializedName;
 
 public final class UploadedFile implements Comparable<UploadedFile> {
 
-	private final FileInfo m_fileInfo;
-	private final String m_url;
-	private final String m_key;
+	@SerializedName("path")
+	private final String m_path;
 
-	public UploadedFile(FileInfo fileInfo, String url) {
-		m_fileInfo = fileInfo;
-		m_url = url;
-		m_key = m_fileInfo.toString() + ':' + m_url;
+	@SerializedName("md5")
+	private final String m_md5;
+
+	@SerializedName("bytes")
+	private final long m_bytes;
+
+	@SerializedName("id")
+	private final String m_id;
+
+	private transient String m_key;
+
+	public UploadedFile(String path, String md5, long bytes, String id) {
+		m_path = path;
+		m_md5 = md5;
+		m_bytes = bytes;
+		m_id = id;
 	}
 
-	public FileInfo getFileInfo() {
-		return m_fileInfo;
+	public String getPath() {
+		return m_path;
 	}
 
-	public String getUrl() {
-		return m_url;
+	public String getMd5() {
+		return m_md5;
+	}
+
+	public long getBytes() {
+		return m_bytes;
+	}
+
+	public String getId() {
+		return m_id;
+	}
+
+	private String getKey() {
+		if (m_key == null) {
+			m_key = m_path + ':' + m_md5 + ':' + m_bytes + ':' + m_id;
+		}
+		return m_key;
 	}
 
 	@Override
 	public int hashCode() {
-		return m_key.hashCode();
+		return getKey().hashCode();
 	}
 
 	@Override
@@ -32,15 +58,15 @@ public final class UploadedFile implements Comparable<UploadedFile> {
 		if (obj.getClass() != UploadedFile.class) {
 			return false;
 		}
-		return m_key.equals(((UploadedFile) obj).m_key);
+		return getKey().equals(((UploadedFile) obj).getKey());
 	}
 
 	@Override
 	public String toString() {
-		return m_key;
+		return getKey();
 	}
 
 	public int compareTo(UploadedFile o) {
-		return m_key.compareTo(o.m_key);
+		return getKey().compareTo(o.getKey());
 	}
 }

@@ -11,7 +11,7 @@ import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
 public class InkStampTest extends TestCase {
 
 	private static final FileInfo FILE_A = new FileInfo("mysite.html",
-			"59C9A5690432939EC043B23E6D06B3FB", 22837);
+			"59C9A5690432939EC043B23E6D06B3FB");
 	private static final String FILE_BASE = "src/test/resources/sampleFiles";
 
 	private InkStamp m_stamp;
