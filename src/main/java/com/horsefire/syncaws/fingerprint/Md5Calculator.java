@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 import com.google.inject.Inject;
 
-class Md5Calculator {
+public class Md5Calculator {
 
 	private final NumberConverter m_converter;
 
@@ -31,7 +31,9 @@ class Md5Calculator {
 			int length = 0;
 			do {
 				length = in.read(buffer);
-				digest.update(buffer, 0, length);
+				if (length > 0) {
+					digest.update(buffer, 0, length);
+				}
 			} while (length == buffer.length);
 			return digest.digest();
 		} catch (NoSuchAlgorithmException e) {

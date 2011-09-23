@@ -34,7 +34,7 @@ public class InkStamp {
 							filepath = filepath.substring(baseline.length() + 1);
 						}
 						return new FileInfo(filepath, m_md5Calculator
-								.getMd5String(file));
+								.getMd5String(file), file.length());
 					}
 				});
 		return new Fingerprint(generationTime, list);

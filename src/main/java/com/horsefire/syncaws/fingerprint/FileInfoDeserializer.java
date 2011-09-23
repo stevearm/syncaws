@@ -34,6 +34,14 @@ public class FileInfoDeserializer implements JsonDeserializer<FileInfo> {
 		}
 		String md5 = element.getAsString();
 
-		return new FileInfo(path, md5);
+		element = object.get("bytes");
+		if (element == null || !element.isJsonPrimitive()
+				|| !element.getAsJsonPrimitive().isNumber()) {
+			throw new JsonParseException(
+					"Uploaded file must have bytes as an integer");
+		}
+		long bytes = element.getAsLong();
+
+		return new FileInfo(path, md5, bytes);
 	}
 }

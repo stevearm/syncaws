@@ -1,5 +1,8 @@
 package com.horsefire.syncaws;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.Reader;
 
 import com.google.gson.Gson;
@@ -44,8 +47,30 @@ public class Config {
 		return m_projects;
 	}
 
-	public static Config load(Reader in) {
-		Gson gson = new Gson();
-		return gson.fromJson(in, Config.class);
+	public static Config load(File dir) {
+		try {
+			Reader in = new FileReader(new File(dir, FILENAME));
+			Gson gson = new Gson();
+			Config config = gson.fromJson(in, Config.class);
+			validate(config);
+			return config;
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException("No " + FILENAME
+					+ " file found in specified config dir");
+		}
+	}
+
+	private static void validate(Config config) {
+		assertNotEmpty("accessKey", config.m_accessKey);
+		assertNotEmpty("secretAccessKey", config.m_secretAccessKey);
+		assertNotEmpty("bucket", config.m_bucket);
+		assertNotEmpty("baseUrl", config.m_baseUrl);
+	}
+
+	private static void assertNotEmpty(String name, String string) {
+		if (string == null || string.isEmpty()) {
+			throw new RuntimeException("Config did not validate. " + name
+					+ " was empty");
+		}
 	}
 }

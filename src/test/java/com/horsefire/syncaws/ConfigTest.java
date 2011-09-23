@@ -1,7 +1,7 @@
 package com.horsefire.syncaws;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 import junit.framework.TestCase;
 
@@ -11,8 +11,7 @@ public class ConfigTest extends TestCase {
 
 	@Test
 	public void testDeserialize() throws FileNotFoundException {
-		Config config = Config.load(new FileReader("src/test/resources/config/"
-				+ Config.FILENAME));
+		Config config = Config.load(new File("src/test/resources/config"));
 		assertEquals("asdf", config.getAccessKey());
 		assertEquals("aoifjwoeif", config.getSecretAccessKey());
 		assertEquals("stevearm", config.getBucket());
