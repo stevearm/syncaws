@@ -1,6 +1,9 @@
 package com.horsefire.syncaws;
 
+import java.io.File;
+
 import com.google.gson.annotations.SerializedName;
+import com.horsefire.syncaws.SyncAws.Options;
 
 public class Project {
 
@@ -24,4 +27,10 @@ public class Project {
 	public String getBaseDir() {
 		return m_baseDir;
 	}
+
+	public File getFingerprintFile(Options options) {
+		return new File(options.configDir, getId() + ".js");
+	}
+
+	// public String getNewestIndex
 }

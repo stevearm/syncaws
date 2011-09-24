@@ -13,6 +13,8 @@ public class TaskFactory {
 			String taskName = options.tasks.get(i);
 			if ("scan".equals(taskName)) {
 				tasks[i] = new ScanTask(options, config);
+			} else if ("delta".equals(taskName)) {
+				tasks[i] = new DeltaTask(options, config);
 			} else {
 				throw new RuntimeException("Unknown task: " + taskName);
 			}

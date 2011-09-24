@@ -1,6 +1,9 @@
 package com.horsefire.syncaws.backup;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 import com.google.gson.annotations.SerializedName;
+import com.horsefire.syncaws.fingerprint.FileInfo;
 
 public final class UploadedFile implements Comparable<UploadedFile> {
 
@@ -20,9 +23,9 @@ public final class UploadedFile implements Comparable<UploadedFile> {
 
 	public UploadedFile(String path, String md5, long bytes, String id) {
 		m_path = path;
-		m_md5 = md5;
+		m_md5 = md5.toLowerCase();
 		m_bytes = bytes;
-		m_id = id;
+		m_id = id.toLowerCase();
 	}
 
 	public String getPath() {
@@ -68,5 +71,11 @@ public final class UploadedFile implements Comparable<UploadedFile> {
 
 	public int compareTo(UploadedFile o) {
 		return getKey().compareTo(o.getKey());
+	}
+
+	public boolean isSameFile(FileInfo fileInfo) {
+		return new EqualsBuilder().append(m_path, fileInfo.getPath())
+				.append(m_md5, fileInfo.getMd5())
+				.append(m_bytes, fileInfo.getBytes()).isEquals();
 	}
 }

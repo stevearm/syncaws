@@ -1,15 +1,13 @@
 package com.horsefire.syncaws;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.List;
 
 import org.slf4j.Logger;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.internal.Lists;
 
 /**
@@ -37,33 +35,40 @@ public final class SyncAws {
 		public List<String> tasks = Lists.newArrayList();
 	}
 
-	private static void initLogging(boolean debug) {
-		final PrintStream out = System.out;
-		System.setOut(new PrintStream(new OutputStream() {
-			@Override
-			public void write(int b) throws IOException {
-				// Do nothing
-			}
-		}));
+	private static Logger initLogging(boolean debug, String filePath) {
 		if (debug) {
-			System.setProperty("logging-detail-level", "true");
+			System.setProperty("log-level", "true");
 		}
+		System.setProperty("log-path", filePath);
 		Logger log = org.slf4j.LoggerFactory.getLogger(SyncAws.class);
-		System.setOut(out);
 		log.debug("Debug logging enabled");
+		return log;
 	}
 
 	public static void main(String[] args) throws Exception {
 		Options options = new Options();
-		new JCommander(options, args);
-
-		initLogging(options.debug);
-
-		Config config = Config.load(new File(options.configDir));
-		Task[] tasks = new TaskFactory().parseTasks(options, config);
-		for (Task task : tasks) {
-			task.run();
+		try {
+			new JCommander(options, args);
+		} catch (ParameterException e) {
+			System.err.println(e.getMessage());
+			return;
 		}
 
+		Logger logger = initLogging(options.debug, options.configDir + '/');
+
+		String errorMessage = "Error loading config";
+		try {
+			Config config = Config.load(new File(options.configDir));
+
+			errorMessage = "Error parsing tasks";
+			Task[] tasks = new TaskFactory().parseTasks(options, config);
+
+			errorMessage = "Error running task";
+			for (Task task : tasks) {
+				task.run();
+			}
+		} catch (RuntimeException e) {
+			logger.error(errorMessage, e);
+		}
 	}
 }

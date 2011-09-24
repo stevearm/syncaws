@@ -20,7 +20,7 @@ public final class FileInfo implements Comparable<FileInfo> {
 			throw new NullPointerException();
 		}
 		m_path = path.replaceAll("\\\\", "/");
-		m_md5 = md5;
+		m_md5 = md5.toLowerCase();
 		m_bytes = bytes;
 	}
 

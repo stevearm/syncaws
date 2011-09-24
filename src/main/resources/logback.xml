@@ -1,10 +1,14 @@
 <configuration>
-	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>%d [%thread] %level %logger - %m%n</Pattern>
-		</layout>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${log-path:-}syncaws.log</file>
+		<append>true</append>
+		<encoder><pattern>%d [%thread] %-5level %logger{35} - %msg%n</pattern></encoder>
 	</appender>
-	<root level="${logging-detail-level:-ERROR}">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder><pattern>%m%n</pattern></encoder>
+	</appender>
+	<root level="${log-level:-INFO}">
 		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
 	</root>
 </configuration>

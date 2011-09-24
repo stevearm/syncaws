@@ -38,8 +38,8 @@ public class ScanTask extends Task {
 				.getBaseDir()));
 		String json = serializer.save(print);
 		try {
-			FileWriter writer = new FileWriter(new File(getOptions().configDir,
-					selectedProject.getId() + ".js"));
+			FileWriter writer = new FileWriter(getSelectedProject()
+					.getFingerprintFile(getOptions()));
 			writer.write(json);
 			writer.close();
 		} catch (IOException e) {

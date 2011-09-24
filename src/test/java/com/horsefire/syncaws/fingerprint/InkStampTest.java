@@ -62,10 +62,12 @@ public class InkStampTest extends TestCase {
 		assertFalse(fingerprintA.equals(fingerprintC));
 		assertFalse(fingerprintC.equals(fingerprintA));
 		diff = fingerprintA.diff(fingerprintC);
-		assertEquals(1, diff.addedFiles().size());
-		assertEquals("pics/fry.jpg", diff.addedFiles().get(0).getPath());
-		assertEquals(1, diff.removedFiles().size());
-		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(0).getPath());
+		assertEquals(2, diff.addedFiles().size());
+		assertEquals("notes.txt", diff.addedFiles().get(0).getPath());
+		assertEquals("pics/fry.jpg", diff.addedFiles().get(1).getPath());
+		assertEquals(2, diff.removedFiles().size());
+		assertEquals("notes.txt", diff.removedFiles().get(0).getPath());
+		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(1).getPath());
 
 		assertFalse(fingerprintB.equals(fingerprintC));
 		assertFalse(fingerprintC.equals(fingerprintB));
