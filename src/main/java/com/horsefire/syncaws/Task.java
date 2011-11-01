@@ -1,25 +1,23 @@
 package com.horsefire.syncaws;
 
-import com.horsefire.syncaws.SyncAws.Options;
-
 public abstract class Task {
 
-	private final Options m_options;
-	private final Config m_config;
+	private final CommandLineArgs m_options;
+	private final ConfigService m_config;
 	private Project m_selectedProject;
 
-	public Task(Options options, Config config) {
+	public Task(CommandLineArgs options, ConfigService config) {
 		m_options = options;
 		m_config = config;
 
 		validate();
 	}
 
-	protected Options getOptions() {
+	protected CommandLineArgs getOptions() {
 		return m_options;
 	}
 
-	protected Config getConfig() {
+	protected ConfigService getConfig() {
 		return m_config;
 	}
 
@@ -29,12 +27,13 @@ public abstract class Task {
 
 	protected void requireSelectedProject() {
 		for (Project project : getConfig().getProjects()) {
-			if (project.getName().equals(getOptions().project)) {
+			if (project.getName().equals(getOptions().getProject())) {
 				m_selectedProject = project;
 				return;
 			}
 		}
-		throw new RuntimeException("No project found for: " + m_options.project);
+		throw new RuntimeException("No project found for: "
+				+ m_options.getProject());
 	}
 
 	public abstract void validate();

@@ -7,12 +7,13 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-public class ConfigTest extends TestCase {
+public class ConfigServiceTest extends TestCase {
 
 	@Test
 	public void testDeserialize() throws FileNotFoundException {
 		ConfigService config = new ConfigService(new File(
 				"src/test/resources/config"));
+		assertTrue(config.load());
 		assertEquals("asdf", config.getAccessKey());
 		assertEquals("aoifjwoeif", config.getSecretAccessKey());
 		assertEquals("stevearm", config.getBucket());

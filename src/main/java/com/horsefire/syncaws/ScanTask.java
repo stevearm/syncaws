@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.horsefire.syncaws.SyncAws.Options;
 import com.horsefire.syncaws.fingerprint.DirectoryWalker;
 import com.horsefire.syncaws.fingerprint.FileInfo;
 import com.horsefire.syncaws.fingerprint.Fingerprint;
@@ -15,7 +14,7 @@ import com.horsefire.syncaws.fingerprint.NumberConverter;
 
 public class ScanTask extends Task {
 
-	public ScanTask(Options options, Config config) {
+	public ScanTask(CommandLineArgs options, ConfigService config) {
 		super(options, config);
 	}
 
