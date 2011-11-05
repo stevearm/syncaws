@@ -1,10 +1,13 @@
 package com.horsefire.syncaws;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
+
+import com.horsefire.util.TestHelper;
 
 public class ConfigServiceTest extends TestCase {
 
@@ -27,5 +30,18 @@ public class ConfigServiceTest extends TestCase {
 		assertEquals(name, project.getName());
 		assertEquals(id, project.getId());
 		assertEquals(baseDir, project.getBaseDir());
+	}
+
+	@Test
+	public void testNoFile() throws IOException {
+		String path = TestHelper.getTestSandbox(getClass());
+		ConfigService config = new ConfigService(new CommandLineArgs(path,
+				null, false, null));
+		try {
+			config.getAccessKey();
+			fail("Should have thrown an exception");
+		} catch (RuntimeException e) {
+			// Expected
+		}
 	}
 }
