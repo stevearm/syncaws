@@ -1,16 +1,18 @@
-package com.horsefire.syncaws;
+package com.horsefire.syncaws.tasks;
 
-public abstract class Task {
+import com.horsefire.syncaws.CommandLineArgs;
+import com.horsefire.syncaws.ConfigService;
+import com.horsefire.syncaws.Project;
+
+public abstract class ProjectTask implements Task {
 
 	private final CommandLineArgs m_options;
-	private final ConfigService m_config;
+	private final ConfigService m_configService;
 	private Project m_selectedProject;
 
-	public Task(CommandLineArgs options, ConfigService config) {
+	public ProjectTask(CommandLineArgs options, ConfigService configService) {
 		m_options = options;
-		m_config = config;
-
-		validate();
+		m_configService = configService;
 	}
 
 	protected CommandLineArgs getOptions() {
@@ -18,14 +20,14 @@ public abstract class Task {
 	}
 
 	protected ConfigService getConfig() {
-		return m_config;
+		return m_configService;
 	}
 
 	protected Project getSelectedProject() {
 		return m_selectedProject;
 	}
 
-	protected void requireSelectedProject() {
+	public void validate() {
 		for (Project project : getConfig().getProjects()) {
 			if (project.getName().equals(getOptions().getProject())) {
 				m_selectedProject = project;
@@ -35,8 +37,4 @@ public abstract class Task {
 		throw new RuntimeException("No project found for: "
 				+ m_options.getProject());
 	}
-
-	public abstract void validate();
-
-	public abstract void run() throws Exception;
 }

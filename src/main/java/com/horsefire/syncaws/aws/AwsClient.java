@@ -1,6 +1,5 @@
 package com.horsefire.syncaws.aws;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -105,16 +104,5 @@ public class AwsClient {
 					+ objects[o].getContentLength() + " bytes)");
 		}
 		return null;
-	}
-
-	public static void main(String[] args) throws S3ServiceException {
-		ConfigService config = new ConfigService();
-		config.load(new File("C:/Users/steve/.syncaws"));
-		AwsClient client = new AwsClient(config);
-		for (Project project : config.getProjects()) {
-			System.out.println("Project " + project.getName() + " exists: "
-					+ client.checkProject(project));
-		}
-		client.getProjects();
 	}
 }

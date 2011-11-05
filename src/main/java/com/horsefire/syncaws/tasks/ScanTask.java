@@ -1,9 +1,13 @@
-package com.horsefire.syncaws;
+package com.horsefire.syncaws.tasks;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+import com.horsefire.syncaws.CommandLineArgs;
+import com.horsefire.syncaws.ConfigService;
+import com.horsefire.syncaws.Project;
 import com.horsefire.syncaws.fingerprint.DirectoryWalker;
 import com.horsefire.syncaws.fingerprint.FileInfo;
 import com.horsefire.syncaws.fingerprint.Fingerprint;
@@ -12,18 +16,13 @@ import com.horsefire.syncaws.fingerprint.InkStamp;
 import com.horsefire.syncaws.fingerprint.Md5Calculator;
 import com.horsefire.syncaws.fingerprint.NumberConverter;
 
-public class ScanTask extends Task {
+public class ScanTask extends ProjectTask {
 
+	@Inject
 	public ScanTask(CommandLineArgs options, ConfigService config) {
 		super(options, config);
 	}
 
-	@Override
-	public void validate() {
-		requireSelectedProject();
-	}
-
-	@Override
 	public void run() {
 		Project selectedProject = getSelectedProject();
 

@@ -12,5 +12,6 @@ public class SyncModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(CommandLineArgs.class).toInstance(m_args);
 	}
 }

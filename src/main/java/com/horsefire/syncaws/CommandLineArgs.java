@@ -12,13 +12,24 @@ public class CommandLineArgs {
 	private String configDir;
 
 	@Parameter(names = { "-p", "--project" }, description = "Project name")
-	private final String project = null;
+	private String project = null;
 
 	@Parameter(names = { "--debug" }, description = "Enable debug logging")
-	private final boolean debug = false;
+	private boolean debug = false;
 
 	@Parameter
-	private final List<String> tasks = Lists.newArrayList();
+	private List<String> tasks = Lists.newArrayList();
+
+	public CommandLineArgs() {
+	}
+
+	public CommandLineArgs(String configDir, String project, boolean debug,
+			List<String> tasks) {
+		this.configDir = configDir;
+		this.project = project;
+		this.debug = debug;
+		this.tasks = tasks;
+	}
 
 	public String getConfigDir() {
 		return configDir;

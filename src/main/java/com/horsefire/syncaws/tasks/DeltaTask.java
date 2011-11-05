@@ -1,4 +1,4 @@
-package com.horsefire.syncaws;
+package com.horsefire.syncaws.tasks;
 
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +8,9 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+import com.horsefire.syncaws.CommandLineArgs;
+import com.horsefire.syncaws.ConfigService;
 import com.horsefire.syncaws.aws.AwsClient;
 import com.horsefire.syncaws.backup.Delta;
 import com.horsefire.syncaws.backup.DeltaGenerator;
@@ -15,17 +18,13 @@ import com.horsefire.syncaws.backup.Index;
 import com.horsefire.syncaws.fingerprint.Fingerprint;
 import com.horsefire.syncaws.fingerprint.FingerprintSerializer;
 
-public class DeltaTask extends Task {
+public class DeltaTask extends ProjectTask {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DeltaTask.class);
 
+	@Inject
 	public DeltaTask(CommandLineArgs options, ConfigService config) {
 		super(options, config);
-	}
-
-	@Override
-	public void validate() {
-		requireSelectedProject();
 	}
 
 	private Fingerprint getFingerprint() {
@@ -44,7 +43,6 @@ public class DeltaTask extends Task {
 		}
 	}
 
-	@Override
 	public void run() {
 		Fingerprint print = getFingerprint();
 		try {
