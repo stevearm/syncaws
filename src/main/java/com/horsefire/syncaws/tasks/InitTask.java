@@ -19,5 +19,4 @@ public class InitTask implements Task {
 	public void run() throws Exception {
 		m_configService.resetConfig();
 	}
-
 }
