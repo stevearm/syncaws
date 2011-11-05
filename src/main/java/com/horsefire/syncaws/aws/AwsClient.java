@@ -47,9 +47,7 @@ public class AwsClient {
 	}
 
 	public void testConnection() throws S3ServiceException {
-		S3Object object = getService().getObject(m_config.getBucket(),
-				m_config.getBaseUrl());
-		System.out.println(object);
+		getService().getBucket(m_config.getBucket());
 	}
 
 	private String getProjectUrl(Project project) {
