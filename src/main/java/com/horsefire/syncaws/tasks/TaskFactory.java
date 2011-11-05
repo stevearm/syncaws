@@ -16,12 +16,10 @@ public class TaskFactory {
 	@Inject
 	public TaskFactory(CommandLineArgs args,
 			Provider<InitTask> initTaskProvider,
-			Provider<ScanTask> scanTaskProvider,
-			Provider<DeltaTask> deltaTaskProvider) {
+			Provider<ValidateTask> validateTaskProvider) {
 		m_args = args;
 		m_taskMapping.put("init", initTaskProvider);
-		m_taskMapping.put("scan", scanTaskProvider);
-		m_taskMapping.put("delta", deltaTaskProvider);
+		m_taskMapping.put("validate", validateTaskProvider);
 	}
 
 	public Task[] parseTasks() {

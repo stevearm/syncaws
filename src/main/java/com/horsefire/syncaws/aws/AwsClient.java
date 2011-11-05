@@ -14,6 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.google.inject.Inject;
 import com.horsefire.syncaws.ConfigService;
 import com.horsefire.syncaws.Project;
 import com.horsefire.syncaws.backup.Index;
@@ -25,6 +26,7 @@ public class AwsClient {
 	private transient AWSCredentials m_credentials;
 	private transient S3Service m_service;
 
+	@Inject
 	public AwsClient(ConfigService config) {
 		m_config = config;
 	}
@@ -45,7 +47,9 @@ public class AwsClient {
 	}
 
 	public void testConnection() throws S3ServiceException {
-		getService().getBucket(m_config.getBucket());
+		S3Object object = getService().getObject(m_config.getBucket(),
+				m_config.getBaseUrl());
+		System.out.println(object);
 	}
 
 	private String getProjectUrl(Project project) {
