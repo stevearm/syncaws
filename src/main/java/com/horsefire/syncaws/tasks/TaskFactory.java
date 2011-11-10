@@ -16,10 +16,14 @@ public class TaskFactory {
 	@Inject
 	public TaskFactory(CommandLineArgs args,
 			Provider<InitTask> initTaskProvider,
-			Provider<ValidateTask> validateTaskProvider) {
+			Provider<ValidateTask> validateTaskProvider,
+			Provider<ScanTask> scanTaskProvider,
+			Provider<UploadTask> uploadTaskProvider) {
 		m_args = args;
 		m_taskMapping.put("init", initTaskProvider);
 		m_taskMapping.put("validate", validateTaskProvider);
+		m_taskMapping.put("scan", scanTaskProvider);
+		m_taskMapping.put("upload", uploadTaskProvider);
 	}
 
 	public Task[] parseTasks() {
@@ -41,6 +45,7 @@ public class TaskFactory {
 				throw new RuntimeException("Unknown task: " + taskNames.get(i));
 			}
 			tasks[i] = provider.get();
+			tasks[i].validate();
 		}
 		return tasks;
 	}

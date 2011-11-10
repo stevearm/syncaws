@@ -17,6 +17,9 @@ public class CommandLineArgs {
 	@Parameter(names = { "--debug" }, description = "Enable debug logging")
 	private boolean debug = false;
 
+	@Parameter(names = { "--dry-run" }, description = "Dry run for upload")
+	private final boolean dryrun = false;
+
 	@Parameter
 	private List<String> tasks = Lists.newArrayList();
 
@@ -41,6 +44,10 @@ public class CommandLineArgs {
 
 	public boolean isDebug() {
 		return debug;
+	}
+
+	public boolean isDryrun() {
+		return dryrun;
 	}
 
 	public List<String> getTasks() {

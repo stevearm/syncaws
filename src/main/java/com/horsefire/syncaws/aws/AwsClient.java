@@ -1,24 +1,23 @@
 package com.horsefire.syncaws.aws;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
 import org.jets3t.service.ServiceException;
+import org.jets3t.service.acl.AccessControlList;
 import org.jets3t.service.impl.rest.httpclient.RestS3Service;
 import org.jets3t.service.model.S3Object;
 import org.jets3t.service.security.AWSCredentials;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.google.inject.Inject;
 import com.horsefire.syncaws.ConfigService;
 import com.horsefire.syncaws.Project;
-import com.horsefire.syncaws.backup.Index;
-import com.horsefire.syncaws.backup.IndexSerializer;
 
 public class AwsClient {
 
@@ -67,44 +66,36 @@ public class AwsClient {
 		}
 	}
 
-	public Index getMostRecentIndex(Project project) throws IOException,
-			ParseException {
-		try {
-			S3Object indexJson = getService().getObject(m_config.getBucket(),
-					getProjectUrl(project) + "/indexes.js");
-			Object object = new JSONParser().parse(new InputStreamReader(
-					indexJson.getDataInputStream()));
-			if (!(object instanceof JSONArray)) {
-				throw new RuntimeException("Error deserializing index list");
-			}
-			JSONArray indexes = (JSONArray) object;
-			if (indexes.isEmpty()) {
-				return null;
-			}
-			object = indexes.get(indexes.size() - 1);
-			if (!(object instanceof String)) {
-				throw new RuntimeException("Index must be a string");
-			}
-			S3Object json = getService().getObject(m_config.getBucket(),
-					getProjectUrl(project) + "/" + (String) object);
-			return new IndexSerializer().load(new InputStreamReader(json
-					.getDataInputStream()));
-		} catch (S3ServiceException e) {
-			throw new RuntimeException("Error loading index", e);
-		} catch (ServiceException e) {
-			throw new RuntimeException("Error loading index", e);
-		}
+	public S3Object getObject(String url) throws S3ServiceException {
+		return getService().getObject(m_config.getBucket(), url);
 	}
 
-	public List<String> getProjects() throws S3ServiceException {
-		S3Object[] objects = getService().listObjects(m_config.getBucket(),
-				m_config.getBaseUrl(), null);
+	public Reader getReader(String url) throws ServiceException {
+		S3Object json = getObject(url);
+		return new InputStreamReader(json.getDataInputStream());
+	}
 
-		// Print out each object's key and size.
-		for (int o = 0; o < objects.length; o++) {
-			System.out.println(" " + objects[o].getKey() + " ("
-					+ objects[o].getContentLength() + " bytes)");
-		}
-		return null;
+	public void putFile(File localFile, String url) throws S3ServiceException,
+			NoSuchAlgorithmException, IOException {
+		S3Object object = new S3Object(localFile);
+		object.setKey(url);
+		object.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
+		object.setContentDisposition("attachment; filename="
+				+ localFile.getName());
+		getService().putObject(m_config.getBucket(), object);
+	}
+
+	public void putJson(String json, String url)
+			throws NoSuchAlgorithmException, UnsupportedEncodingException,
+			IOException, S3ServiceException {
+		S3Object object = new S3Object(url, json.getBytes("UTF-8"));
+		object.setContentType("application/javascript");
+		object.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
+		getService().putObject(m_config.getBucket(), object);
+	}
+
+	public void deleteFile(String url) throws S3ServiceException,
+			ServiceException {
+		getService().deleteObject(m_config.getBucket(), url);
 	}
 }
