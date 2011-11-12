@@ -1,0 +1,92 @@
+<html>
+<head>
+<style type="text/css">
+.file span {
+	font-size: small;
+	margin-left: 5px;
+}
+#indexSize {
+	font-size: small;
+	margin-left: 5px;
+}
+#indexName {
+	font-size: large;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+Indexes:
+<span id="indexList">
+Loading...
+</span>
+<hr>
+<div><span id="indexName"></span><span id="indexSize"></span></div>
+<div id="indexContent"></div>
+
+<script type="text/javascript">
+function loadIndexList() {
+	$.getJSON("indexList.js", function(indexes){
+		var div = $("#indexList");
+		div.empty();
+		jQuery.each(indexes, function(index, content) {
+			div.append(" [");
+			var anchor = $("<a/>");
+			anchor.text(content);
+			anchor.attr("href", "#");
+			anchor.click(function(){showIndex(content);});
+			div.append(anchor);
+			div.append("] ");
+		});
+		showIndex(indexes[indexes.length-1]);
+	});
+}
+var indexList = {};
+function showIndex(indexName) {
+	$("#indexName").text(indexName);
+	if (indexList[indexName] != undefined) {
+		displayIndex(indexName);
+	} else {
+		var div = $("#indexContent");
+		div.text("Loading...");
+		$.getJSON(indexName, function(data){
+			indexList[indexName] = data;
+			displayIndex(indexName);
+		});
+	}
+}
+function displayIndex(name) {
+	var totalSize = 0;
+	var index = indexList[name];
+	var div = $("#indexContent");
+	div.empty();
+	$.each(index.files, function(index, content) {
+		var element = $("<div/>");
+		element.attr("class", "file");
+
+		var link = $("<a/>");
+		link.attr("href", "files/" + content.id);
+		link.text(content.path);
+		element.append(link);
+
+		var bytes = $("<span/>");
+		bytes.text(content.bytes + "b");
+		element.append(bytes);
+		div.append(element);
+		totalSize += content.bytes;
+	});
+	$("#indexSize").text(totalSize + "b");
+}
+</script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load("jquery", "1.7");
+google.setOnLoadCallback(function() {
+	jQuery(function($) {
+		// run your jQuery code in here after DOM has loaded
+		loadIndexList();
+	});
+});
+</script>
+</body>
+</html>
