@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import com.horsefire.syncaws.UuidGenerator;
 import com.horsefire.syncaws.fingerprint.FileInfo;
 import com.horsefire.syncaws.fingerprint.Fingerprint;
 import com.horsefire.syncaws.fingerprint.FingerprintSerializer;
@@ -19,7 +20,8 @@ public class DeltaGeneratorTest extends TestCase {
 	public void testNoOldIndex() throws FileNotFoundException {
 		Fingerprint print = new FingerprintSerializer().load(new FileReader(
 				new File("src/test/resources/config/typeCindex.js")));
-		Delta delta = new DeltaGenerator().create(null, print);
+		Delta delta = new DeltaGenerator(new UuidGenerator()).create(null,
+				print);
 		List<FileInfo> localFiles = print.getFiles();
 		List<UploadedFile> remoteFiles = delta.getFilesToUpload();
 		assertEquals(localFiles.size(), remoteFiles.size());
@@ -36,7 +38,8 @@ public class DeltaGeneratorTest extends TestCase {
 				new File("src/test/resources/config/typeCindex.js")));
 		Index oldIndex = new IndexSerializer().load(new FileReader(new File(
 				"src/test/resources/indexes/201109122330.js")));
-		Delta delta = new DeltaGenerator().create(oldIndex, print);
+		Delta delta = new DeltaGenerator(new UuidGenerator()).create(oldIndex,
+				print);
 		List<UploadedFile> remoteFiles = delta.getFilesToUpload();
 		assertEquals(2, remoteFiles.size());
 		assertTrue(remoteFiles.get(0).isSameFile(

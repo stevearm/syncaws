@@ -17,11 +17,13 @@ public class TaskFactory {
 	public TaskFactory(CommandLineArgs args,
 			Provider<InitTask> initTaskProvider,
 			Provider<ValidateTask> validateTaskProvider,
+			Provider<CreateTask> createTaskProvider,
 			Provider<ScanTask> scanTaskProvider,
 			Provider<UploadTask> uploadTaskProvider) {
 		m_args = args;
 		m_taskMapping.put("init", initTaskProvider);
 		m_taskMapping.put("validate", validateTaskProvider);
+		m_taskMapping.put("create", createTaskProvider);
 		m_taskMapping.put("scan", scanTaskProvider);
 		m_taskMapping.put("upload", uploadTaskProvider);
 	}

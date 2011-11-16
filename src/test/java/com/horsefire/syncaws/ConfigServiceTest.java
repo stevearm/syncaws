@@ -14,7 +14,7 @@ public class ConfigServiceTest extends TestCase {
 	@Test
 	public void testDeserialize() throws FileNotFoundException {
 		ConfigService config = new ConfigService(new CommandLineArgs(
-				"src/test/resources/config", null, false, null));
+				"src/test/resources/config", null, false, null, null));
 		assertEquals("asdf", config.getAccessKey());
 		assertEquals("aoifjwoeif", config.getSecretAccessKey());
 		assertEquals("stevearm", config.getBucket());
@@ -36,7 +36,7 @@ public class ConfigServiceTest extends TestCase {
 	public void testNoFile() throws IOException {
 		String path = TestHelper.getTestSandbox(getClass());
 		ConfigService config = new ConfigService(new CommandLineArgs(path,
-				null, false, null));
+				null, false, null, null));
 		try {
 			config.getAccessKey();
 			fail("Should have thrown an exception");

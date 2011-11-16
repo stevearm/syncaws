@@ -2,20 +2,24 @@ package com.horsefire.syncaws.backup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+import com.google.inject.Inject;
+import com.horsefire.syncaws.UuidGenerator;
 import com.horsefire.syncaws.fingerprint.FileInfo;
 import com.horsefire.syncaws.fingerprint.Fingerprint;
 
 public class DeltaGenerator {
 
-	private String getGUID() {
-		return UUID.randomUUID().toString();
+	private final UuidGenerator m_idGenerator;
+
+	@Inject
+	public DeltaGenerator(UuidGenerator idGenerator) {
+		m_idGenerator = idGenerator;
 	}
 
 	private UploadedFile convert(FileInfo fileInfo) {
 		return new UploadedFile(fileInfo.getPath(), fileInfo.getMd5(),
-				fileInfo.getBytes(), getGUID());
+				fileInfo.getBytes(), m_idGenerator.getId());
 	}
 
 	public Delta create(Index lastIndex, Fingerprint print) {

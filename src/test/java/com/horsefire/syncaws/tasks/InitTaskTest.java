@@ -37,7 +37,7 @@ public class InitTaskTest extends TestCase {
 	private void runInit() throws Exception {
 		List<String> projects = Collections.emptyList();
 		CommandLineArgs args = new CommandLineArgs(m_sandbox, null, false,
-				projects);
+				projects, null);
 		ConfigService configService = new ConfigService(args);
 		InitTask task = new InitTask(configService);
 		task.validate();

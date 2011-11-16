@@ -15,6 +15,16 @@ public class Project {
 	@SerializedName("baseDir")
 	private String m_baseDir;
 
+	public Project() {
+		// Do nothing
+	}
+
+	public Project(String name, String id, String baseDir) {
+		m_name = name;
+		m_id = id;
+		m_baseDir = baseDir;
+	}
+
 	public String getName() {
 		return m_name;
 	}

@@ -14,6 +14,9 @@ public class CommandLineArgs {
 	@Parameter(names = { "-p", "--project" }, description = "Project name")
 	private String project = null;
 
+	@Parameter(names = { "--dir" }, description = "Project directory")
+	private String dir = null;
+
 	@Parameter(names = { "--debug" }, description = "Enable debug logging")
 	private boolean debug = false;
 
@@ -27,11 +30,12 @@ public class CommandLineArgs {
 	}
 
 	public CommandLineArgs(String configDir, String project, boolean debug,
-			List<String> tasks) {
+			List<String> tasks, String dir) {
 		this.configDir = configDir;
 		this.project = project;
 		this.debug = debug;
 		this.tasks = tasks;
+		this.dir = dir;
 	}
 
 	public String getConfigDir() {
@@ -40,6 +44,10 @@ public class CommandLineArgs {
 
 	public String getProject() {
 		return project;
+	}
+
+	public String getDir() {
+		return dir;
 	}
 
 	public boolean isDebug() {

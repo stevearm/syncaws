@@ -9,7 +9,7 @@ syncaws validate
   check that the config loads properly, and that the aws info (keys, bucket name and base dir) are valid
   requires internet connection
 
-syncaws create <projectName> <projectDir>
+syncaws create --project <projectName> --dir <projectDir>
   projectName must not already exist in the config
   projectDir must exist
   adds the project to the config and saves it

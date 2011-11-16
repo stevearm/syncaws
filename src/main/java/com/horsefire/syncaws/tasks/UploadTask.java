@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import com.horsefire.syncaws.CommandLineArgs;
 import com.horsefire.syncaws.ConfigService;
 import com.horsefire.syncaws.Project;
+import com.horsefire.syncaws.UuidGenerator;
 import com.horsefire.syncaws.aws.AwsClient;
 import com.horsefire.syncaws.aws.UrlService;
 import com.horsefire.syncaws.backup.Delta;
@@ -110,7 +111,7 @@ public class UploadTask extends ProjectTask {
 	private Delta getDelta() {
 		Fingerprint print = getFingerprint();
 		Index index = getMostRecentIndex(getSelectedProject());
-		return new DeltaGenerator().create(index, print);
+		return new DeltaGenerator(new UuidGenerator()).create(index, print);
 	}
 
 	private String uploadIndex(Index index) {

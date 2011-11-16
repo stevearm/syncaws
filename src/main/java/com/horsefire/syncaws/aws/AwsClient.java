@@ -94,6 +94,15 @@ public class AwsClient {
 		getService().putObject(m_config.getBucket(), object);
 	}
 
+	public void putHtml(String html, String url)
+			throws NoSuchAlgorithmException, UnsupportedEncodingException,
+			IOException, S3ServiceException {
+		S3Object object = new S3Object(url, html.getBytes("UTF-8"));
+		object.setContentType("text/html");
+		object.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
+		getService().putObject(m_config.getBucket(), object);
+	}
+
 	public void deleteFile(String url) throws S3ServiceException,
 			ServiceException {
 		getService().deleteObject(m_config.getBucket(), url);

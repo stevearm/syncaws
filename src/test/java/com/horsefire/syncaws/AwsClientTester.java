@@ -8,7 +8,7 @@ public class AwsClientTester {
 
 	public static void main(String[] args) throws Exception {
 		CommandLineArgs cmdLineArgs = new CommandLineArgs(
-				"c:/users/steve/.syncaws", null, false, null);
+				"c:/users/steve/.syncaws", null, false, null, null);
 		ConfigService config = new ConfigService(cmdLineArgs);
 		AwsClient client = new AwsClient(config);
 		String url = "backups/steve/kdjfoaisnaoivnawove2";
