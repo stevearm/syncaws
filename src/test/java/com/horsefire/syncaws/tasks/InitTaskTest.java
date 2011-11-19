@@ -1,43 +1,19 @@
 package com.horsefire.syncaws.tasks;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 
 import com.horsefire.syncaws.CommandLineArgs;
+import com.horsefire.syncaws.CommandLineArgsBuilder;
 import com.horsefire.syncaws.ConfigService;
-import com.horsefire.util.TestHelper;
+import com.horsefire.util.SandboxedTestCase;
 
-public class InitTaskTest extends TestCase {
-
-	private String m_sandbox;
-
-	@Override
-	protected void setUp() throws Exception {
-		m_sandbox = TestHelper.getTestSandbox(getClass());
-	}
-
-	private void deleteSandbox() throws IOException {
-		File dir = new File(m_sandbox);
-		if (dir.exists()) {
-			TestHelper.delete(dir);
-		}
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		deleteSandbox();
-	}
+public class InitTaskTest extends SandboxedTestCase {
 
 	private void runInit() throws Exception {
-		List<String> projects = Collections.emptyList();
-		CommandLineArgs args = new CommandLineArgs(m_sandbox, null, false,
-				projects, null);
+		CommandLineArgs args = new CommandLineArgsBuilder().configDir(
+				getSandboxPath()).build();
 		ConfigService configService = new ConfigService(args);
 		InitTask task = new InitTask(configService);
 		task.validate();

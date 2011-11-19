@@ -21,7 +21,7 @@ public class CommandLineArgs {
 	private boolean debug = false;
 
 	@Parameter(names = { "--dry-run" }, description = "Dry run for upload")
-	private final boolean dryrun = false;
+	private boolean dryrun = false;
 
 	@Parameter
 	private List<String> tasks = Lists.newArrayList();
@@ -29,12 +29,13 @@ public class CommandLineArgs {
 	public CommandLineArgs() {
 	}
 
-	public CommandLineArgs(String configDir, String project, boolean debug,
-			List<String> tasks, String dir) {
+	CommandLineArgs(String configDir, String project, boolean debug,
+			List<String> tasks, String dir, boolean dryRun) {
 		this.configDir = configDir;
 		this.project = project;
 		this.debug = debug;
 		this.tasks = tasks;
+		this.dryrun = dryRun;
 		this.dir = dir;
 	}
 

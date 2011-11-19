@@ -7,8 +7,8 @@ import com.horsefire.syncaws.aws.AwsClient;
 public class AwsClientTester {
 
 	public static void main(String[] args) throws Exception {
-		CommandLineArgs cmdLineArgs = new CommandLineArgs(
-				"c:/users/steve/.syncaws", null, false, null, null);
+		CommandLineArgs cmdLineArgs = new CommandLineArgsBuilder().configDir(
+				"c:/users/steve/.syncaws").build();
 		ConfigService config = new ConfigService(cmdLineArgs);
 		AwsClient client = new AwsClient(config);
 		String url = "backups/steve/kdjfoaisnaoivnawove2";

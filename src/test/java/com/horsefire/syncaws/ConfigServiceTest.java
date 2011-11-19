@@ -3,18 +3,16 @@ package com.horsefire.syncaws;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
-import com.horsefire.util.TestHelper;
+import com.horsefire.util.SandboxedTestCase;
 
-public class ConfigServiceTest extends TestCase {
+public class ConfigServiceTest extends SandboxedTestCase {
 
 	@Test
 	public void testDeserialize() throws FileNotFoundException {
-		ConfigService config = new ConfigService(new CommandLineArgs(
-				"src/test/resources/config", null, false, null, null));
+		ConfigService config = new ConfigService(new CommandLineArgsBuilder()
+				.configDir("src/test/resources/config").build());
 		assertEquals("asdf", config.getAccessKey());
 		assertEquals("aoifjwoeif", config.getSecretAccessKey());
 		assertEquals("stevearm", config.getBucket());
@@ -34,9 +32,8 @@ public class ConfigServiceTest extends TestCase {
 
 	@Test
 	public void testNoFile() throws IOException {
-		String path = TestHelper.getTestSandbox(getClass());
-		ConfigService config = new ConfigService(new CommandLineArgs(path,
-				null, false, null, null));
+		ConfigService config = new ConfigService(new CommandLineArgsBuilder()
+				.configDir(getSandboxPath()).build());
 		try {
 			config.getAccessKey();
 			fail("Should have thrown an exception");
