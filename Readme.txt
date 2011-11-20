@@ -49,3 +49,8 @@ syncaws --project <projectName> prune
   projectName must exist in the config
   show a list of the dates available
   ask which one to delete upto (do not allow sparse lists, only delete oldest X entries)
+
+Known bugs and features to implement
+====================================
+The create task adds projects with double backslash paths instead of forward slash
+Command-line output is messy

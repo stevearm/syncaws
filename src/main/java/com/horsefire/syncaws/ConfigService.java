@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -96,7 +97,8 @@ public class ConfigService {
 	private void saveConfig(Config config) {
 		try {
 			Writer writer = new FileWriter(getFile());
-			writer.append(new Gson().toJson(config));
+			writer.append(new GsonBuilder().setPrettyPrinting().create()
+					.toJson(config));
 			writer.close();
 			m_config = config;
 		} catch (IOException e) {
