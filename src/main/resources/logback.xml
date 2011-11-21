@@ -3,11 +3,14 @@
 		<file>${log-path:-}syncaws.log</file>
 		<append>true</append>
 		<encoder><pattern>%d [%thread] %-5level %logger{35} - %msg%n</pattern></encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter"><level>${log-level:-OFF}</level></filter>
 	</appender>
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder><pattern>%m%n</pattern></encoder>
+		<encoder><pattern>%m%nopex%n</pattern></encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter"><level>INFO</level></filter>
 	</appender>
-	<root level="${log-level:-INFO}">
+
+	<root level="DEBUG">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE" />
 	</root>
