@@ -1,0 +1,16 @@
+<configuration>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>target/syncaws.log</file>
+		<append>true</append>
+		<encoder><pattern>%d [%thread] %-5level %logger{35} - %msg%n</pattern></encoder>
+	</appender>
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder><pattern>%m%n</pattern></encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter"><level>WARNING</level></filter>
+	</appender>
+
+	<root level="DEBUG">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>
