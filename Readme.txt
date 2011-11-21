@@ -52,5 +52,4 @@ syncaws --project <projectName> prune
 
 Known bugs and features to implement
 ====================================
-The create task adds projects with double backslash paths instead of forward slash
 Command-line output is messy

@@ -11,6 +11,7 @@ import com.horsefire.syncaws.UuidGenerator;
 import com.horsefire.syncaws.aws.AwsClient;
 import com.horsefire.syncaws.aws.UrlService;
 import com.horsefire.syncaws.resources.Loader;
+import com.horsefire.util.FileDelegate;
 
 public class CreateTask implements Task {
 
@@ -19,15 +20,18 @@ public class CreateTask implements Task {
 	private final UuidGenerator m_generator;
 	private final AwsClient m_client;
 	private final UrlService m_urlService;
+	private final FileDelegate m_fileDelegate;
 
 	@Inject
 	public CreateTask(CommandLineArgs options, ConfigService configService,
-			UuidGenerator generator, AwsClient client, UrlService urlService) {
+			UuidGenerator generator, AwsClient client, UrlService urlService,
+			FileDelegate fileDelegate) {
 		m_options = options;
 		m_configService = configService;
 		m_generator = generator;
 		m_client = client;
 		m_urlService = urlService;
+		m_fileDelegate = fileDelegate;
 	}
 
 	public void validate() {
@@ -46,7 +50,7 @@ public class CreateTask implements Task {
 	public void run() throws Exception {
 		String projectName = m_options.getProject();
 		File dir = new File(m_options.getDir());
-		if (!dir.isDirectory()) {
+		if (!m_fileDelegate.isDirectory(dir)) {
 			throw new RuntimeException("Directory must exist");
 		}
 		for (Project project : m_configService.getProjects()) {
@@ -54,8 +58,12 @@ public class CreateTask implements Task {
 				throw new RuntimeException("That project name is already taken");
 			}
 		}
-		Project project = new Project(projectName, m_generator.getId(),
-				dir.getAbsolutePath());
+
+		String path = dir.getAbsolutePath();
+		if (path.contains("\\")) {
+			path = path.replaceAll("\\\\", "/");
+		}
+		Project project = new Project(projectName, m_generator.getId(), path);
 		Reader reader = new Loader().getHtmlIndexFile();
 		char[] buffer = new char[1000];
 		int length = reader.read(buffer);
