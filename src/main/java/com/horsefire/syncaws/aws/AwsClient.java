@@ -14,12 +14,16 @@ import org.jets3t.service.acl.AccessControlList;
 import org.jets3t.service.impl.rest.httpclient.RestS3Service;
 import org.jets3t.service.model.S3Object;
 import org.jets3t.service.security.AWSCredentials;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.horsefire.syncaws.ConfigService;
 import com.horsefire.syncaws.Project;
 
 public class AwsClient {
+
+	private static final Logger LOG = LoggerFactory.getLogger(AwsClient.class);
 
 	private final ConfigService m_config;
 	private transient AWSCredentials m_credentials;
@@ -66,17 +70,19 @@ public class AwsClient {
 		}
 	}
 
-	public S3Object getObject(String url) throws S3ServiceException {
+	private S3Object getObject(String url) throws S3ServiceException {
 		return getService().getObject(m_config.getBucket(), url);
 	}
 
 	public Reader getReader(String url) throws ServiceException {
+		LOG.debug("Reading file from {}", url);
 		S3Object json = getObject(url);
 		return new InputStreamReader(json.getDataInputStream());
 	}
 
 	public void putFile(File localFile, String url) throws S3ServiceException,
 			NoSuchAlgorithmException, IOException {
+		LOG.debug("Uploading file {} to {}", localFile, url);
 		S3Object object = new S3Object(localFile);
 		object.setKey(url);
 		object.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
@@ -88,6 +94,7 @@ public class AwsClient {
 	public void putJson(String json, String url)
 			throws NoSuchAlgorithmException, UnsupportedEncodingException,
 			IOException, S3ServiceException {
+		LOG.debug("Uploading json content to {}", url);
 		S3Object object = new S3Object(url, json.getBytes("UTF-8"));
 		object.setContentType("application/javascript");
 		object.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
@@ -97,6 +104,7 @@ public class AwsClient {
 	public void putHtml(String html, String url)
 			throws NoSuchAlgorithmException, UnsupportedEncodingException,
 			IOException, S3ServiceException {
+		LOG.debug("Uploading html content to {}", url);
 		S3Object object = new S3Object(url, html.getBytes("UTF-8"));
 		object.setContentType("text/html");
 		object.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
@@ -105,6 +113,7 @@ public class AwsClient {
 
 	public void deleteFile(String url) throws S3ServiceException,
 			ServiceException {
+		LOG.debug("Deleting file at {}", url);
 		getService().deleteObject(m_config.getBucket(), url);
 	}
 }

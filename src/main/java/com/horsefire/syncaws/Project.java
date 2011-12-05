@@ -37,6 +37,11 @@ public class Project {
 		return m_baseDir;
 	}
 
+	@Override
+	public String toString() {
+		return m_name + "(" + m_id + ")";
+	}
+
 	public File getFingerprintFile(CommandLineArgs options) {
 		return new File(options.getConfigDir(), getId() + ".js");
 	}

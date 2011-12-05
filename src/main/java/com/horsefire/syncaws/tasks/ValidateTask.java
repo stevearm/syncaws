@@ -20,11 +20,7 @@ public class ValidateTask implements Task {
 	}
 
 	public void run() throws Exception {
-		try {
-			m_configService.getBaseUrl();
-		} catch (Exception e) {
-			throw new RuntimeException("Could not load config", e);
-		}
+		m_configService.getBaseUrl();
 		try {
 			m_awsClient.testConnection();
 		} catch (Exception e) {

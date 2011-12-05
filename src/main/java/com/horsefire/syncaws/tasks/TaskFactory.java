@@ -32,11 +32,12 @@ public class TaskFactory {
 		List<String> taskNames = m_args.getTasks();
 		if (taskNames.size() == 0) {
 			StringBuilder message = new StringBuilder(
-					"Must specify atleast one of the followa tasks: ");
+					"Must specify atleast one of the following tasks: ");
+			String spacer = ", ";
 			for (String task : m_taskMapping.keySet()) {
-				message.append(task).append(", ");
+				message.append(task).append(spacer);
 			}
-			message.setLength(message.length() - 2);
+			message.setLength(message.length() - spacer.length());
 			throw new RuntimeException(message.toString());
 		}
 		final Task[] tasks = new Task[taskNames.size()];

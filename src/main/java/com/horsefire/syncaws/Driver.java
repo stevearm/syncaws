@@ -39,7 +39,7 @@ public class Driver {
 		try {
 			tasks = m_taskFactory.parseTasks();
 		} catch (RuntimeException e) {
-			LOG.error("Error parsing tasks", e);
+			LOG.error("Error parsing tasks: {}", e.getMessage(), e);
 			return;
 		}
 		try {
@@ -47,7 +47,7 @@ public class Driver {
 				task.run();
 			}
 		} catch (RuntimeException e) {
-			LOG.error("Error running task", e);
+			LOG.error("Error running task: {}", e.getMessage(), e);
 		}
 	}
 }

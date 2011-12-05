@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
+import com.horsefire.util.FileDelegate;
 
 public class InkStampTest extends TestCase {
 
@@ -19,7 +20,7 @@ public class InkStampTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		m_stamp = new InkStamp(new Md5Calculator(new NumberConverter()),
-				new DirectoryWalker<FileInfo>());
+				new DirectoryWalker<FileInfo>(), new FileDelegate());
 	}
 
 	@Test

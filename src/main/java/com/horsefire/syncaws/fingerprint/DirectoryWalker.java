@@ -28,7 +28,7 @@ public class DirectoryWalker<T> {
 				TimeUnit.NANOSECONDS, new LinkedBlockingQueue<Runnable>());
 
 		List<Future<T>> futures = new ArrayList<Future<T>>();
-		LOG.info("Walking directory: {}", dir);
+		LOG.debug("Walking directory: {}", dir);
 		walkDir(dir, futures, processor, executor);
 		LOG.debug("Found {} files", futures.size());
 		List<T> result = new ArrayList<T>(futures.size());

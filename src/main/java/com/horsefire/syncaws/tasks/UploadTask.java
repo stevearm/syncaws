@@ -76,11 +76,11 @@ public class UploadTask extends ProjectTask {
 			}
 			return (JSONArray) object;
 		} catch (ServiceException e) {
-			throw new RuntimeException("Error reading index list", e);
+			throw new RuntimeException("Error reading index list from S3", e);
 		} catch (IOException e) {
-			throw new RuntimeException("Error reading index list", e);
+			throw new RuntimeException("Error reading index list from S3", e);
 		} catch (ParseException e) {
-			throw new RuntimeException("Error reading index list", e);
+			throw new RuntimeException("Error reading index list from S3", e);
 		}
 	}
 

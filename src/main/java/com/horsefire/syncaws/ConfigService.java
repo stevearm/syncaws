@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
@@ -20,6 +23,8 @@ import com.google.inject.Singleton;
 public class ConfigService {
 
 	public static final String FILENAME = "syncaws.js";
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ConfigService.class);
 
 	private transient Config m_config = null;
 
@@ -45,7 +50,7 @@ public class ConfigService {
 				assertNotEmpty("baseUrl", config.baseUrl);
 				m_config = config;
 			} catch (FileNotFoundException e) {
-				throw new RuntimeException(e);
+				throw new RuntimeException("Error loading config from disk", e);
 			}
 		}
 		return m_config;
@@ -83,6 +88,7 @@ public class ConfigService {
 	}
 
 	public void addProject(Project project) {
+		LOG.debug("Adding new project: {}", project);
 		Project[] projects = new Project[getConfig().projects.length + 1];
 		System.arraycopy(getConfig().projects, 0, projects, 0,
 				getConfig().projects.length);
@@ -91,18 +97,27 @@ public class ConfigService {
 	}
 
 	public void resetConfig() {
+		LOG.debug("Resetting config to default");
 		saveConfig(new Config());
 	}
 
 	private void saveConfig(Config config) {
+		if (LOG.isDebugEnabled()) {
+			String json = new Gson().toJson(m_config);
+			LOG.debug("About to overwrite current config: " + json);
+		}
 		try {
 			Writer writer = new FileWriter(getFile());
 			writer.append(new GsonBuilder().setPrettyPrinting().create()
 					.toJson(config));
 			writer.close();
 			m_config = config;
+			if (LOG.isDebugEnabled()) {
+				String json = new Gson().toJson(m_config);
+				LOG.debug("Saved new config to disk: " + json);
+			}
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error saving config to disk", e);
 		}
 	}
 

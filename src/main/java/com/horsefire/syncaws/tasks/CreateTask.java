@@ -59,7 +59,7 @@ public class CreateTask implements Task {
 			}
 		}
 
-		String path = dir.getAbsolutePath();
+		String path = m_fileDelegate.getAbsolutePath(dir);
 		if (path.contains("\\")) {
 			path = path.replaceAll("\\\\", "/");
 		}
