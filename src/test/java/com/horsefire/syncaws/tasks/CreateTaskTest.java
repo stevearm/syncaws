@@ -40,6 +40,8 @@ public class CreateTaskTest extends TestCase {
 
 		expect(fileDelegate.isDirectory(eq(new File(options.getDir()))))
 				.andReturn(true);
+		expect(fileDelegate.getAbsolutePath(eq(new File(options.getDir()))))
+				.andReturn(dirPath);
 
 		Collection<Project> projects = Collections.emptyList();
 		expect(configService.getProjects()).andReturn(projects);

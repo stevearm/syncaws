@@ -32,7 +32,8 @@ public class ValidateTaskTest extends TestCase {
 	@Test
 	public void testConfigFailure() throws Exception {
 		ConfigService configService = createMock(ConfigService.class);
-		expect(configService.getBaseUrl()).andThrow(new RuntimeException());
+		expect(configService.getBaseUrl()).andThrow(
+				new RuntimeException("config"));
 		AwsClient awsClient = createMock(AwsClient.class);
 		replay(configService, awsClient);
 		ValidateTask task = new ValidateTask(configService, awsClient);
