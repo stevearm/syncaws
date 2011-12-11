@@ -3,6 +3,9 @@ package com.horsefire.syncaws.tasks;
 import java.io.File;
 import java.io.Reader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.horsefire.syncaws.CommandLineArgs;
 import com.horsefire.syncaws.ConfigService;
@@ -14,6 +17,8 @@ import com.horsefire.syncaws.resources.Loader;
 import com.horsefire.util.FileDelegate;
 
 public class CreateTask implements Task {
+
+	private static final Logger LOG = LoggerFactory.getLogger(CreateTask.class);
 
 	private final CommandLineArgs m_options;
 	private final ConfigService m_configService;
@@ -76,5 +81,7 @@ public class CreateTask implements Task {
 		m_client.putHtml(htmlFile.toString(), m_urlService.getHtmlFile(project));
 		m_client.putJson("[]", m_urlService.getIndexList(project));
 		m_configService.addProject(project);
+		LOG.info("Added project {} and uploaded index files",
+				m_options.getProject());
 	}
 }
