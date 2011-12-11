@@ -37,6 +37,6 @@ Assuming syncaws is a script to run java -jar syncaws.jar --configDir <configDir
  - display the total number of files to be uploaded, and the sum of their sizes
  - if not dry run:
 
- -- upload the new created index
- -- upload files
- -- upload new indexList.js to include the new index
+ - upload the new created index
+ - upload files
+ - upload new indexList.js to include the new index
