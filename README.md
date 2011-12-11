@@ -60,9 +60,9 @@ Assuming syncaws is a script to run java -jar syncaws.jar --configDir <configDir
 
 `syncaws --project <projectName> prune`
 
- - projectName must exist in the config
- - show a list of the dates available
- - ask which one to delete upto (do not allow sparse lists, only delete oldest X entries)
+* projectName must exist in the config
+* show a list of the dates available
+** ask which one to delete upto (do not allow sparse lists, only delete oldest X entries)
 
 ##Known bugs and features to implement
 
