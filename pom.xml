@@ -8,9 +8,9 @@
 	<name>Generic java helper code</name>
 
 	<scm>
-		<connection>${horsefire.git.repo}/syncaws.git</connection>
-		<developerConnection>${horsefire.git.repo}/syncaws.git</developerConnection>
-		<url>${horsefire.git.repo}/syncaws.git</url>
+		<connection>scm:git:git@github.com:stevearm/syncaws.git</connection>
+		<url>scm:git:git@github.com:stevearm/syncaws.git</url>
+		<developerConnection>scm:git:git@github.com:stevearm/syncaws.git</developerConnection>
 	</scm>
 
 	<parent>
