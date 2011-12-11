@@ -8,23 +8,28 @@ to download any unchanged files.
 Assuming syncaws is a script to run java -jar syncaws.jar --configDir <configDir> %
 
 `syncaws init`
+
  - if no syncaws.js config file exists, create a blank
 
 `syncaws validate`
+
  - check that the config loads properly, and that the aws info (keys, bucket name and base dir)
    are valid requires internet connection
 
 `syncaws create --project <projectName> --dir <projectDir>`
+
  - projectName must not already exist in the config
  - projectDir must exist
  - adds the project to the config and saves it
  - creates the project dir on S3 and uploads the index.html and a blank indexList.js
 
 `syncaws --project <projectName> scan`
+
  - projectName must exist in the config
  - Scan the project's folder, and save the fingerprint in the config directory under projectId.js
 
 `syncaws --project <projectName> upload [--dry-run]`
+
  - projectName must exist in the config
  - fingerprint must exist for the given project at projectId.js
  - there must exist an indexList.js on S3 for the given project (it can be empty)
@@ -36,7 +41,9 @@ Assuming syncaws is a script to run java -jar syncaws.jar --configDir <configDir
  -- upload new indexList.js to include the new index
 
 ## Not yet implemented functions
+
 `syncaws --project <projectName> recover`
+
  - projectName must exist in the config
  - fingerprint must exist for the given project at projectId.js
  - there must exist an indexList.js on S3 for the given project (it can be empty)
@@ -52,9 +59,11 @@ Assuming syncaws is a script to run java -jar syncaws.jar --configDir <configDir
  ---- update indexList.js to include the new index
 
 `syncaws --project <projectName> prune`
+
  - projectName must exist in the config
  - show a list of the dates available
  - ask which one to delete upto (do not allow sparse lists, only delete oldest X entries)
 
 ##Known bugs and features to implement
+
  - Command-line output is messy
