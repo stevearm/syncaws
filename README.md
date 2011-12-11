@@ -9,34 +9,38 @@ Assuming syncaws is a script to run java -jar syncaws.jar --configDir <configDir
 
 `syncaws init`
 
- - if no syncaws.js config file exists, create a blank
+1. if no syncaws.js config file exists, create a blank
 
 `syncaws validate`
 
- - check that the config loads properly, and that the aws info (keys, bucket name and base dir)
-   are valid requires internet connection
+* requires internet connection
+
+1. check that the config loads properly
+2. check that the aws info (keys, bucket name and base dir) are valid 
 
 `syncaws create --project <projectName> --dir <projectDir>`
 
- - projectName must not already exist in the config
- - projectDir must exist
- - adds the project to the config and saves it
- - creates the project dir on S3 and uploads the index.html and a blank indexList.js
+* projectName must not already exist in the config
+* projectDir must exist
+
+1. adds the project to the config and saves it
+2. creates the project dir on S3 and uploads the index.html and a blank indexList.js
 
 `syncaws --project <projectName> scan`
 
- - projectName must exist in the config
- - Scan the project's folder, and save the fingerprint in the config directory under projectId.js
+* projectName must exist in the config
+
+1. Scan the project's folder, and save the fingerprint in the config directory under projectId.js
 
 `syncaws --project <projectName> upload [--dry-run]`
 
- - projectName must exist in the config
- - fingerprint must exist for the given project at projectId.js
- - there must exist an indexList.js on S3 for the given project (it can be empty)
- - compares the saved fingerprint with the most recent index on S3 (if any)
- - display the total number of files to be uploaded, and the sum of their sizes
- - if not dry run:
+* projectName must exist in the config
+* fingerprint must exist for the given project at projectId.js
+* there must exist an indexList.js on S3 for the given project (it can be empty)
 
- - upload the new created index
- - upload files
- - upload new indexList.js to include the new index
+1. compares the saved fingerprint with the most recent index on S3 (if any)
+2. display the total number of files to be uploaded, and the sum of their sizes
+3. if dry run, exit at this point
+4. upload the new created index
+5. upload files
+6. upload new indexList.js to include the new index
