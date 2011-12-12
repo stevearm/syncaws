@@ -12,7 +12,7 @@ import com.horsefire.util.FileDelegate;
 public class InkStampTest extends TestCase {
 
 	private static final FileInfo FILE_A = new FileInfo("mysite.html",
-			"59C9A5690432939EC043B23E6D06B3FB", 22837);
+			"77550ad650b34a22da2aa35c6af28efd", 22832);
 	private static final String FILE_BASE = "src/test/resources/sampleFiles";
 
 	private InkStamp m_stamp;
@@ -73,11 +73,9 @@ public class InkStampTest extends TestCase {
 		assertFalse(fingerprintB.equals(fingerprintC));
 		assertFalse(fingerprintC.equals(fingerprintB));
 		diff = fingerprintB.diff(fingerprintC);
-		assertEquals(2, diff.addedFiles().size());
-		assertEquals("notes.txt", diff.addedFiles().get(0).getPath());
-		assertEquals("pics/fry.jpg", diff.addedFiles().get(1).getPath());
-		assertEquals(2, diff.removedFiles().size());
-		assertEquals("notes.txt", diff.removedFiles().get(0).getPath());
-		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(1).getPath());
+		assertEquals(1, diff.addedFiles().size());
+		assertEquals("pics/fry.jpg", diff.addedFiles().get(0).getPath());
+		assertEquals(1, diff.removedFiles().size());
+		assertEquals("pics/zoidberg.jpg", diff.removedFiles().get(0).getPath());
 	}
 }
