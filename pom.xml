@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.horsefire</groupId>
 	<artifactId>syncaws</artifactId>
 	<packaging>jar</packaging>
 	<version>1.2-SNAPSHOT</version>
-	<name>Generic java helper code</name>
+	<name>Sync files to AWS S3</name>
 
 	<scm>
 		<connection>scm:git:git@github.com:stevearm/syncaws.git</connection>
@@ -15,11 +16,10 @@
 	<parent>
 		<groupId>com.horsefire.maven</groupId>
 		<artifactId>common-pom</artifactId>
-		<version>0.3</version>
+		<version>0.4</version>
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4j.version>1.6.1</slf4j.version>
 	</properties>
 
@@ -28,11 +28,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
