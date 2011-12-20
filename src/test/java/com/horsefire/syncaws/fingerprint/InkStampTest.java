@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.horsefire.syncaws.fingerprint.Fingerprint.Diff;
 import com.horsefire.util.FileDelegate;
+import com.horsefire.util.NumberConverter;
 
 public class InkStampTest extends TestCase {
 

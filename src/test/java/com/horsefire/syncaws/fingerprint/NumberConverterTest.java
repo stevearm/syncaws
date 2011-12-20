@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import com.horsefire.util.NumberConverter;
+
 public class NumberConverterTest extends TestCase {
 
 	// private static final long TEST_VALUE_LONG = 76865768658765l;

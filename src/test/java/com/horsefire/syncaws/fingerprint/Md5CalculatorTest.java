@@ -7,6 +7,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import com.horsefire.util.NumberConverter;
+
 public class Md5CalculatorTest extends TestCase {
 
 	@Test

@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.google.inject.Inject;
+import com.horsefire.util.NumberConverter;
 
 public class Md5Calculator {
 
