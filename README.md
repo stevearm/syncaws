@@ -4,6 +4,9 @@ This utility fingerprints a given directory using md5 hashes, and uploads it to 
 Subsequent uploads only upload changed files, and the index file links to old files
 to download any unchanged files.
 
+## Licence
+This project is released under the Apache 2.0. See attached LICENCE.txt
+
 ## Usage
 Assuming syncaws is a script to run `java -jar syncaws.jar --configDir <configDir> %`
 
