@@ -20,7 +20,7 @@
 	</parent>
 
 	<properties>
-		<util.version>1.1</util.version>
+		<util.version>1.2</util.version>
 		<guice.version>3.0</guice.version>
 		<slf4j.version>1.6.1</slf4j.version>
 	</properties>

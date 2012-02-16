@@ -141,8 +141,8 @@ public class UploadTask extends ProjectTask {
 				File localFile = new File(project.getBaseDir(), file.getPath());
 				LOG.info("Uploading {} ({} bytes)",
 						localFile.getAbsolutePath(), file.getBytes());
-				m_awsClient.putFile(localFile, m_urlService.getFile(
-						getSelectedProject(), file.getId()));
+				m_awsClient.putFile(localFile,
+						m_urlService.getFile(getSelectedProject(), file));
 			}
 		} catch (S3ServiceException e) {
 			throw new RuntimeException("Error uploading file", e);
@@ -181,10 +181,12 @@ public class UploadTask extends ProjectTask {
 		}
 		LOG.info("{} new files to upload (total size {} bytes)", files.size(),
 				delta.getTotalBytes());
-		if (!getOptions().isDryrun()) {
-			String indexName = uploadIndex(delta.getNewIndex());
-			uploadFiles(files);
-			updateIndexList(indexName);
+		if (getOptions().isDryrun()) {
+			return;
 		}
+		String indexName = uploadIndex(delta.getNewIndex());
+		LOG.info("Uploaded new index: {}", indexName);
+		uploadFiles(files);
+		updateIndexList(indexName);
 	}
 }

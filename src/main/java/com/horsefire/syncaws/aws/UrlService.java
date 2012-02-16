@@ -3,6 +3,7 @@ package com.horsefire.syncaws.aws;
 import com.google.inject.Inject;
 import com.horsefire.syncaws.ConfigService;
 import com.horsefire.syncaws.Project;
+import com.horsefire.syncaws.backup.UploadedFile;
 
 public class UrlService {
 
@@ -32,8 +33,9 @@ public class UrlService {
 		return getProjectBaseUrl(project) + "/" + index;
 	}
 
-	public String getFile(Project project, String id) {
-		return getProjectBaseUrl(project) + "/files/" + id;
+	public String getFile(Project project, UploadedFile file) {
+		return getProjectBaseUrl(project) + "/files/" + file.getId() + "/"
+				+ file.getPath();
 	}
 
 }

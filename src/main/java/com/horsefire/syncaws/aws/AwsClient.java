@@ -86,8 +86,6 @@ public class AwsClient {
 		S3Object object = new S3Object(localFile);
 		object.setKey(url);
 		object.setAcl(AccessControlList.REST_CANNED_PUBLIC_READ);
-		object.setContentDisposition("attachment; filename="
-				+ localFile.getName());
 		getService().putObject(m_config.getBucket(), object);
 	}
 
