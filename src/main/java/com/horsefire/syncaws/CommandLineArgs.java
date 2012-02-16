@@ -8,7 +8,7 @@ import com.beust.jcommander.internal.Lists;
 
 public class CommandLineArgs {
 
-	@Parameter(names = { "-c", "--configDir" }, description = "SyncAws config directory", required = true)
+	@Parameter(names = { "-c", "--configDir" }, description = "SyncAws config directory")
 	private String configDir;
 
 	@Parameter(names = { "-p", "--project" }, description = "Project name")

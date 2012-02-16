@@ -1,5 +1,8 @@
 package com.horsefire.syncaws;
 
+import java.io.InputStream;
+import java.util.Properties;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 
@@ -24,6 +27,16 @@ public final class SyncAws {
 		System.setProperty("log-path", options.getConfigDir() + '/');
 		if (options.isDebug()) {
 			System.setProperty("log-level", "DEBUG");
+		}
+
+		if (options.getTasks().size() == 1
+				&& options.getTasks().get(0).equals("version")) {
+			String path = "/META-INF/maven/com.horsefire/syncaws/pom.properties";
+			InputStream stream = SyncAws.class.getResourceAsStream(path);
+			Properties props = new Properties();
+			props.load(stream);
+			System.out.println("SyncAws " + props.get("version"));
+			return;
 		}
 
 		Driver.start(options);
