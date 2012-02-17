@@ -13,7 +13,7 @@ import com.horsefire.util.NumberConverter;
 public class InkStampTest extends TestCase {
 
 	private static final FileInfo FILE_A = new FileInfo("mysite.html",
-			"77550ad650b34a22da2aa35c6af28efd", 22832);
+			"8816EF1B512FC1877BC4295C40BBF584", 3635);
 	private static final String FILE_BASE = "src/test/resources/sampleFiles";
 
 	private InkStamp m_stamp;

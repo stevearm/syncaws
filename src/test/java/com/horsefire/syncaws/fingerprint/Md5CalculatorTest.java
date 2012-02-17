@@ -13,7 +13,7 @@ public class Md5CalculatorTest extends TestCase {
 
 	@Test
 	public void testMd5() throws IOException {
-		testMd5("77550AD650B34A22DA2AA35C6AF28EFD.html");
+		testMd5("8816EF1B512FC1877BC4295C40BBF584.html");
 		testMd5("c56c88d8651ab8d5d8d42b188cea3e6a.gif");
 		testMd5("f3763c7b84c3f56d623391842e9fe149.txt");
 	}
