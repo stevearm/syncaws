@@ -46,8 +46,10 @@ public class CreateTaskTest extends TestCase {
 		Collection<Project> projects = Collections.emptyList();
 		expect(configService.getProjects()).andReturn(projects);
 
-		final String guidString = "guidString";
-		expect(generator.getId()).andReturn(guidString);
+		final String guidString1 = "guidString1";
+		final String guidString2 = "guidString2";
+		expect(generator.getId()).andReturn(guidString1);
+		expect(generator.getId()).andReturn(guidString2);
 
 		String url = "url/for/html/file";
 		expect(urlService.getHtmlFile((Project) anyObject())).andReturn(url);
@@ -61,7 +63,8 @@ public class CreateTaskTest extends TestCase {
 		expectLastCall().andDelegateTo(new ConfigService(null) {
 			@Override
 			public void addProject(Project project) {
-				assertEquals(guidString, project.getId());
+				assertEquals(guidString1, project.getId());
+				assertEquals(guidString2, project.getIndexName());
 				assertEquals(properDirPath, project.getBaseDir());
 				assertEquals(projectName, project.getName());
 			}

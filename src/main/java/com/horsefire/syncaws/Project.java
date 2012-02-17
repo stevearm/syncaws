@@ -12,6 +12,9 @@ public class Project {
 	@SerializedName("id")
 	private String m_id;
 
+	@SerializedName("index")
+	private String m_index;
+
 	@SerializedName("baseDir")
 	private String m_baseDir;
 
@@ -19,9 +22,10 @@ public class Project {
 		// Do nothing
 	}
 
-	public Project(String name, String id, String baseDir) {
+	public Project(String name, String id, String index, String baseDir) {
 		m_name = name;
 		m_id = id;
+		m_index = index;
 		m_baseDir = baseDir;
 	}
 
@@ -31,6 +35,10 @@ public class Project {
 
 	public String getId() {
 		return m_id;
+	}
+
+	public String getIndexName() {
+		return m_index;
 	}
 
 	public String getBaseDir() {

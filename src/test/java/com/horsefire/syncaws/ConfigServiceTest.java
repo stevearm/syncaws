@@ -20,13 +20,15 @@ public class ConfigServiceTest extends SandboxedTestCase {
 		assertEquals(1, config.getProjects().size());
 		assertProject(config.getProjects().iterator().next(), "docs",
 				"f373d524-b218-46bc-a2bf-2adb91926048",
+				"f373d524-b218-46bc-a2bf-2adb91926049",
 				"c:/Users/steve/Documents");
 	}
 
 	private void assertProject(Project project, String name, String id,
-			String baseDir) {
+			String indexName, String baseDir) {
 		assertEquals(name, project.getName());
 		assertEquals(id, project.getId());
+		assertEquals(indexName, project.getIndexName());
 		assertEquals(baseDir, project.getBaseDir());
 	}
 

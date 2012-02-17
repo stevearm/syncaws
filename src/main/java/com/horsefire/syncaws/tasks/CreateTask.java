@@ -68,7 +68,8 @@ public class CreateTask implements Task {
 		if (path.contains("\\")) {
 			path = path.replaceAll("\\\\", "/");
 		}
-		Project project = new Project(projectName, m_generator.getId(), path);
+		Project project = new Project(projectName, m_generator.getId(),
+				m_generator.getId(), path);
 		Reader reader = new Loader().getHtmlIndexFile();
 		char[] buffer = new char[1000];
 		int length = reader.read(buffer);

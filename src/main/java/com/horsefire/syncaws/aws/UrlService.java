@@ -7,9 +7,6 @@ import com.horsefire.syncaws.backup.UploadedFile;
 
 public class UrlService {
 
-	public static final String INDEX_LIST = "indexList.js";
-	public static final String HTML_FILE = "index.html";
-
 	private final ConfigService m_config;
 
 	@Inject
@@ -22,15 +19,18 @@ public class UrlService {
 	}
 
 	public String getIndexList(Project project) {
-		return getProjectBaseUrl(project) + "/" + INDEX_LIST;
+		return getProjectBaseUrl(project) + "/" + project.getIndexName()
+				+ ".js";
 	}
 
 	public String getHtmlFile(Project project) {
-		return getProjectBaseUrl(project) + "/" + HTML_FILE;
+		return getProjectBaseUrl(project) + "/" + project.getIndexName()
+				+ ".html";
 	}
 
 	public String getIndex(Project project, String index) {
-		return getProjectBaseUrl(project) + "/" + index;
+		return getProjectBaseUrl(project) + "/" + project.getIndexName()
+				+ index;
 	}
 
 	public String getFile(Project project, UploadedFile file) {
