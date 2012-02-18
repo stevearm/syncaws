@@ -17,9 +17,15 @@ public class DeltaGenerator {
 		m_idGenerator = idGenerator;
 	}
 
+	private String getFilename(String filepath) {
+		String[] split = filepath.split("/");
+		return split[split.length - 1];
+	}
+
 	private UploadedFile convert(FileInfo fileInfo) {
 		return new UploadedFile(fileInfo.getPath(), fileInfo.getMd5(),
-				fileInfo.getBytes(), m_idGenerator.getId());
+				fileInfo.getBytes(), m_idGenerator.getId() + "/"
+						+ getFilename(fileInfo.getPath()));
 	}
 
 	public Delta create(Index lastIndex, Fingerprint print) {

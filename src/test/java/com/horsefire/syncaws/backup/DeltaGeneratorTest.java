@@ -1,5 +1,9 @@
 package com.horsefire.syncaws.backup;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -49,5 +53,26 @@ public class DeltaGeneratorTest extends TestCase {
 				new FileInfo("pics/fry.jpg",
 						"449BC213E212B24EC8C544CA6B748D92", 27481)));
 		assertEquals(598 + 27481, delta.getTotalBytes());
+	}
+
+	@Test
+	public void testIdsInUploadedFiles() throws Exception {
+		String guidString = "thisisansifdnalsdkjlsfa";
+		UuidGenerator generator = createMock(UuidGenerator.class);
+		expect(generator.getId()).andReturn(guidString).anyTimes();
+		replay(generator);
+
+		Fingerprint print = new FingerprintSerializer().load(new FileReader(
+				new File("src/test/resources/config/typeCindex.js")));
+		Delta delta = new DeltaGenerator(generator).create(null, print);
+		List<UploadedFile> remoteFiles = delta.getFilesToUpload();
+
+		UploadedFile file = remoteFiles.get(0);
+		assertEquals("Got the wrong file", "mysite.html", file.getPath());
+		assertEquals(guidString + "/mysite.html", file.getId());
+
+		file = remoteFiles.get(2);
+		assertEquals("Got the wrong file", "pics/bender.jpg", file.getPath());
+		assertEquals(guidString + "/bender.jpg", file.getId());
 	}
 }

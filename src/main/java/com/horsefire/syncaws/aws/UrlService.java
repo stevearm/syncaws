@@ -34,8 +34,7 @@ public class UrlService {
 	}
 
 	public String getFile(Project project, UploadedFile file) {
-		return getProjectBaseUrl(project) + "/files/" + file.getId() + "/"
-				+ file.getPath();
+		return getProjectBaseUrl(project) + "/files/" + file.getId();
 	}
 
 }
