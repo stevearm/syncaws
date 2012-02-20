@@ -4,3 +4,4 @@ target
 .settings
 syncaws.log
 *.launch
+syncaws.js
