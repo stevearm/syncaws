@@ -12,36 +12,27 @@ Assuming syncaws is a script to run `java -jar syncaws.jar --configDir <configDi
 
 `syncaws init`
 
-1. if no syncaws.js config file exists, create a blank
+1. If no syncaws.js config file exists, create a blank
 
 `syncaws validate`
 
-Requires internet connection
+1. Check that the config parses and loads properly
+2. Test that the aws info (keys, bucket name and base dir) are valid 
 
-1. check that the config loads properly
-2. check that the aws info (keys, bucket name and base dir) are valid 
+`syncaws create <projectName> <projectDir>`
 
-`syncaws create --project <projectName> --dir <projectDir>`
+1. Adds the project to the config and saves it
+2. Creates the project dir on S3 and uploads the html and js display files
 
-`projectName` must not already exist in the config, and `projectDir` must exist
+`syncaws status <projectName>`
 
-1. adds the project to the config and saves it
-2. creates the project dir on S3 and uploads the index.html and a blank indexList.js
+1. Update the local index for `projectName` if needed
+2. Compare the local index with the newest uploaded index and list any new files
 
-`syncaws --project <projectName> scan`
+`syncaws upload <projectName>`
 
-`projectName` must exist in the config
-
-1. Scan the project's folder, and save the fingerprint in the config directory under projectId.js
-
-`syncaws --project <projectName> upload [--dry-run]`
-
-`projectName` must exist in the config, fingerprint must exist for the given project at projectId.js, and
-there must exist an `indexList.js` on S3 for the given project (it can be empty)
-
-1. compares the saved fingerprint with the most recent index on S3 (if any)
-2. display the total number of files to be uploaded, and the sum of their sizes
-3. if dry run, exit at this point
-4. upload the new created index
-5. upload files
-6. upload new indexList.js to include the new index
+1. Update the local index for `projectName` if needed
+2. Compare the local index with the newest uploaded index and create a list of all new files
+3. Upload the new index
+4. Upload all new files
+5. Update the display files to add the new index as the newest
