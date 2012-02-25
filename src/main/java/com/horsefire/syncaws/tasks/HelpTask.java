@@ -2,17 +2,14 @@ package com.horsefire.syncaws.tasks;
 
 import com.google.inject.Inject;
 import com.horsefire.syncaws.CommandLineArgs;
-import com.horsefire.syncaws.ConfigService;
 
-public class InitTask implements Task {
+public class HelpTask implements Task {
 
 	private final CommandLineArgs m_args;
-	private final ConfigService m_configService;
 
 	@Inject
-	public InitTask(CommandLineArgs args, ConfigService configService) {
+	public HelpTask(CommandLineArgs args) {
 		m_args = args;
-		m_configService = configService;
 	}
 
 	public void validate() {
@@ -22,6 +19,6 @@ public class InitTask implements Task {
 	}
 
 	public void run() throws Exception {
-		m_configService.resetConfig();
+		throw new UnsupportedOperationException("Help not implemented");
 	}
 }

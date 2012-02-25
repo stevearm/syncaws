@@ -6,11 +6,8 @@ import java.util.List;
 public class CommandLineArgsBuilder {
 
 	private String m_configDir = null;
-	private String m_project = null;
-	private String m_dir = null;
 	private boolean m_debug = false;
-	private boolean m_dryRun = false;
-	private final List<String> m_tasks = new ArrayList<String>();
+	private final List<String> m_args = new ArrayList<String>();
 
 	public CommandLineArgsBuilder configDir(String configDir) {
 		m_configDir = configDir;
@@ -18,13 +15,11 @@ public class CommandLineArgsBuilder {
 	}
 
 	public CommandLineArgsBuilder project(String project) {
-		m_project = project;
-		return this;
+		throw new UnsupportedOperationException();
 	}
 
 	public CommandLineArgsBuilder dir(String dir) {
-		m_dir = dir;
-		return this;
+		throw new UnsupportedOperationException();
 	}
 
 	public CommandLineArgsBuilder debug() {
@@ -33,17 +28,15 @@ public class CommandLineArgsBuilder {
 	}
 
 	public CommandLineArgsBuilder dryRun() {
-		m_dryRun = true;
-		return this;
+		throw new UnsupportedOperationException();
 	}
 
-	public CommandLineArgsBuilder addTask(String task) {
-		m_tasks.add(task);
+	public CommandLineArgsBuilder addArgs(String args) {
+		m_args.add(args);
 		return this;
 	}
 
 	public CommandLineArgs build() {
-		return new CommandLineArgs(m_configDir, m_project, m_debug, m_tasks,
-				m_dir, m_dryRun);
+		return new CommandLineArgs(m_configDir, m_debug, m_args);
 	}
 }

@@ -2,6 +2,7 @@ package com.horsefire.syncaws.tasks;
 
 import java.io.File;
 import java.io.Reader;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class CreateTask implements Task {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CreateTask.class);
 
-	private final CommandLineArgs m_options;
+	private final CommandLineArgs m_args;
 	private final ConfigService m_configService;
 	private final UuidGenerator m_generator;
 	private final AwsClient m_client;
@@ -28,10 +29,10 @@ public class CreateTask implements Task {
 	private final FileDelegate m_fileDelegate;
 
 	@Inject
-	public CreateTask(CommandLineArgs options, ConfigService configService,
+	public CreateTask(CommandLineArgs args, ConfigService configService,
 			UuidGenerator generator, AwsClient client, UrlService urlService,
 			FileDelegate fileDelegate) {
-		m_options = options;
+		m_args = args;
 		m_configService = configService;
 		m_generator = generator;
 		m_client = client;
@@ -40,21 +41,16 @@ public class CreateTask implements Task {
 	}
 
 	public void validate() {
-		String projectName = m_options.getProject();
-		if (projectName == null || projectName.isEmpty()) {
+		if (m_args.getArgs().size() != 2) {
 			throw new RuntimeException(
-					"Must specify project name when creating a project");
-		}
-		String dir = m_options.getDir();
-		if (dir == null || dir.isEmpty()) {
-			throw new RuntimeException(
-					"Must specify dir when creating a project");
+					"Task expects project name and directory");
 		}
 	}
 
 	public void run() throws Exception {
-		String projectName = m_options.getProject();
-		File dir = new File(m_options.getDir());
+		List<String> args = m_args.getArgs();
+		String projectName = args.get(0);
+		File dir = new File(args.get(1));
 		if (!m_fileDelegate.isDirectory(dir)) {
 			throw new RuntimeException("Directory must exist");
 		}
@@ -82,7 +78,6 @@ public class CreateTask implements Task {
 		m_client.putHtml(htmlFile.toString(), m_urlService.getHtmlFile(project));
 		m_client.putJson("[]", m_urlService.getIndexList(project));
 		m_configService.addProject(project);
-		LOG.info("Added project {} and uploaded index files",
-				m_options.getProject());
+		LOG.info("Added project {} and uploaded index files", projectName);
 	}
 }

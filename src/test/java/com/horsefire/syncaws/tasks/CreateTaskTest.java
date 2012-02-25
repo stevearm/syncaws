@@ -29,8 +29,9 @@ public class CreateTaskTest extends TestCase {
 		final String dirPath = "C:\\Users\\steve";
 		final String properDirPath = "C:/Users/steve";
 		final String projectName = "myProject";
-		CommandLineArgs options = new CommandLineArgsBuilder().dir(dirPath)
-				.project(projectName).build();
+		CommandLineArgs options = new CommandLineArgsBuilder()
+				.addArgs("create").addArgs(projectName).addArgs(dirPath)
+				.build();
 
 		ConfigService configService = createMock(ConfigService.class);
 		UuidGenerator generator = createMock(UuidGenerator.class);
@@ -38,10 +39,9 @@ public class CreateTaskTest extends TestCase {
 		UrlService urlService = createMock(UrlService.class);
 		FileDelegate fileDelegate = createMock(FileDelegate.class);
 
-		expect(fileDelegate.isDirectory(eq(new File(options.getDir()))))
-				.andReturn(true);
-		expect(fileDelegate.getAbsolutePath(eq(new File(options.getDir()))))
-				.andReturn(dirPath);
+		expect(fileDelegate.isDirectory(eq(new File(dirPath)))).andReturn(true);
+		expect(fileDelegate.getAbsolutePath(eq(new File(dirPath)))).andReturn(
+				dirPath);
 
 		Collection<Project> projects = Collections.emptyList();
 		expect(configService.getProjects()).andReturn(projects);

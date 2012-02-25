@@ -10,6 +10,8 @@ import junit.framework.TestCase;
 import org.jets3t.service.S3ServiceException;
 import org.junit.Test;
 
+import com.horsefire.syncaws.CommandLineArgs;
+import com.horsefire.syncaws.CommandLineArgsBuilder;
 import com.horsefire.syncaws.ConfigService;
 import com.horsefire.syncaws.aws.AwsClient;
 
@@ -23,7 +25,8 @@ public class ValidateTaskTest extends TestCase {
 		awsClient.testConnection();
 		expectLastCall().once();
 		replay(configService, awsClient);
-		ValidateTask task = new ValidateTask(configService, awsClient);
+		CommandLineArgs args = new CommandLineArgsBuilder().build();
+		ValidateTask task = new ValidateTask(args, configService, awsClient);
 		task.validate();
 		task.run();
 		verify(configService, awsClient);
@@ -36,7 +39,8 @@ public class ValidateTaskTest extends TestCase {
 				new RuntimeException("config"));
 		AwsClient awsClient = createMock(AwsClient.class);
 		replay(configService, awsClient);
-		ValidateTask task = new ValidateTask(configService, awsClient);
+		CommandLineArgs args = new CommandLineArgsBuilder().build();
+		ValidateTask task = new ValidateTask(args, configService, awsClient);
 		task.validate();
 		try {
 			task.run();
@@ -56,7 +60,8 @@ public class ValidateTaskTest extends TestCase {
 		awsClient.testConnection();
 		expectLastCall().andThrow(new S3ServiceException()).once();
 		replay(configService, awsClient);
-		ValidateTask task = new ValidateTask(configService, awsClient);
+		CommandLineArgs args = new CommandLineArgsBuilder().build();
+		ValidateTask task = new ValidateTask(args, configService, awsClient);
 		task.validate();
 		try {
 			task.run();

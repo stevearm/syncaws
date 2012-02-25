@@ -1,8 +1,9 @@
 package com.horsefire.syncaws.tasks;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -15,43 +16,37 @@ public class TaskFactory {
 
 	@Inject
 	public TaskFactory(CommandLineArgs args,
+			Provider<VersionTask> versionTaskProvider,
 			Provider<InitTask> initTaskProvider,
 			Provider<ValidateTask> validateTaskProvider,
 			Provider<CreateTask> createTaskProvider,
-			Provider<ScanTask> scanTaskProvider,
+			Provider<StatusTask> statusTaskProvider,
 			Provider<UploadTask> uploadTaskProvider,
-			Provider<ViewTask> viewTaskProvider) {
+			Provider<HelpTask> helpTaskProvider,
+			Provider<ListTask> listTaskProvider) {
 		m_args = args;
 		m_taskMapping.put("init", initTaskProvider);
 		m_taskMapping.put("validate", validateTaskProvider);
 		m_taskMapping.put("create", createTaskProvider);
-		m_taskMapping.put("scan", scanTaskProvider);
+		m_taskMapping.put("status", statusTaskProvider);
 		m_taskMapping.put("upload", uploadTaskProvider);
-		m_taskMapping.put("view", viewTaskProvider);
+		m_taskMapping.put("list", listTaskProvider);
+		m_taskMapping.put("version", versionTaskProvider);
+		m_taskMapping.put("help", helpTaskProvider);
 	}
 
-	public Task[] parseTasks() {
-		List<String> taskNames = m_args.getTasks();
-		if (taskNames.size() == 0) {
-			StringBuilder message = new StringBuilder(
-					"Must specify atleast one of the following tasks: ");
-			String spacer = ", ";
-			for (String task : m_taskMapping.keySet()) {
-				message.append(task).append(spacer);
-			}
-			message.setLength(message.length() - spacer.length());
-			throw new RuntimeException(message.toString());
+	public Task getTask() {
+		String taskName = m_args.getTask();
+		if (taskName == null) {
+			throw new RuntimeException("Must specify a task: "
+					+ StringUtils.join(m_taskMapping.keySet(), ", "));
 		}
-		final Task[] tasks = new Task[taskNames.size()];
-		for (int i = 0; i < tasks.length; i++) {
-			Provider<? extends Task> provider = m_taskMapping.get(taskNames
-					.get(i));
-			if (provider == null) {
-				throw new RuntimeException("Unknown task: " + taskNames.get(i));
-			}
-			tasks[i] = provider.get();
-			tasks[i].validate();
+		Provider<? extends Task> provider = m_taskMapping.get(taskName);
+		if (provider == null) {
+			throw new RuntimeException("Unknown task: " + taskName);
 		}
-		return tasks;
+		Task task = provider.get();
+		task.validate();
+		return task;
 	}
 }

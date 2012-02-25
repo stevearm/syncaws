@@ -35,17 +35,15 @@ public class Driver {
 			return;
 		}
 
-		Task[] tasks = null;
+		Task task = null;
 		try {
-			tasks = m_taskFactory.parseTasks();
+			task = m_taskFactory.getTask();
 		} catch (RuntimeException e) {
 			LOG.error("Error parsing tasks: {}", e.getMessage(), e);
 			return;
 		}
 		try {
-			for (Task task : tasks) {
-				task.run();
-			}
+			task.run();
 		} catch (RuntimeException e) {
 			LOG.error("Error running task: {}", e.getMessage(), e);
 		}

@@ -5,16 +5,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.jets3t.service.S3ServiceException;
 import org.jets3t.service.ServiceException;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -37,9 +32,9 @@ import com.horsefire.syncaws.fingerprint.Fingerprint;
 import com.horsefire.syncaws.fingerprint.FingerprintSerializer;
 import com.horsefire.syncaws.fingerprint.InkStamp;
 
-public class UploadTask implements Task {
+public class StatusTask implements Task {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UploadTask.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StatusTask.class);
 
 	private final CommandLineArgs m_args;
 	private final ConfigService m_config;
@@ -49,7 +44,7 @@ public class UploadTask implements Task {
 	private final FingerprintSerializer m_serializer;
 
 	@Inject
-	public UploadTask(CommandLineArgs options, ConfigService config,
+	public StatusTask(CommandLineArgs options, ConfigService config,
 			AwsClient awsClient, UrlService urlService, InkStamp inkStamp,
 			FingerprintSerializer serializer) {
 		m_args = options;
@@ -91,12 +86,11 @@ public class UploadTask implements Task {
 			LOG.info("No new files. Backup is up-to-date");
 			return;
 		}
+		for (UploadedFile file : files) {
+			LOG.info(file.getPath());
+		}
 		LOG.info("{} new files to upload (total size {} bytes)", files.size(),
 				delta.getTotalBytes());
-		String indexName = uploadIndex(selectedProject, delta.getNewIndex());
-		LOG.info("Uploaded new index: {}", indexName);
-		uploadFiles(selectedProject, files);
-		updateIndexList(selectedProject, indexName);
 	}
 
 	private Delta getDelta(Project selectedProject) {
@@ -161,62 +155,6 @@ public class UploadTask implements Task {
 			throw new RuntimeException("Error loading index", e);
 		} catch (IOException e) {
 			throw new RuntimeException("Error loading index", e);
-		}
-	}
-
-	private String uploadIndex(Project selectedProject, Index index) {
-		String indexJson = new IndexSerializer().save(index);
-		DateTimeFormatter pattern = DateTimeFormat.forPattern("yyyyMMddHHmm");
-		String indexName = pattern.print(new DateTime(DateTimeZone.UTC))
-				+ ".js";
-		try {
-			m_awsClient.putJson(indexJson,
-					m_urlService.getIndex(selectedProject, indexName));
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Error uploading index", e);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("Error uploading index", e);
-		} catch (S3ServiceException e) {
-			throw new RuntimeException("Error uploading index", e);
-		} catch (IOException e) {
-			throw new RuntimeException("Error uploading index", e);
-		}
-		return indexName;
-	}
-
-	private void uploadFiles(Project project, List<UploadedFile> files) {
-		try {
-			for (UploadedFile file : files) {
-				File localFile = new File(project.getBaseDir(), file.getPath());
-				LOG.info("Uploading {} ({} bytes)",
-						localFile.getAbsolutePath(), file.getBytes());
-				m_awsClient.putFile(localFile,
-						m_urlService.getFile(project, file));
-			}
-		} catch (S3ServiceException e) {
-			throw new RuntimeException("Error uploading file", e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Error uploading file", e);
-		} catch (IOException e) {
-			throw new RuntimeException("Error uploading file", e);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void updateIndexList(Project project, String indexName) {
-		JSONArray indexList = getIndexList(project);
-		indexList.add(indexName);
-		try {
-			m_awsClient.putJson(indexList.toString(),
-					m_urlService.getIndexList(project));
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Error updating index list", e);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("Error updating index list", e);
-		} catch (S3ServiceException e) {
-			throw new RuntimeException("Error updating index list", e);
-		} catch (IOException e) {
-			throw new RuntimeException("Error updating index list", e);
 		}
 	}
 }

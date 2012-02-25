@@ -15,7 +15,7 @@ public class InitTaskTest extends SandboxedTestCase {
 		CommandLineArgs args = new CommandLineArgsBuilder().configDir(
 				getSandboxPath()).build();
 		ConfigService configService = new ConfigService(args);
-		InitTask task = new InitTask(configService);
+		InitTask task = new InitTask(args, configService);
 		task.validate();
 		task.run();
 

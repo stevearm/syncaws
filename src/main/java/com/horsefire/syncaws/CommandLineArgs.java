@@ -11,55 +11,40 @@ public class CommandLineArgs {
 	@Parameter(names = { "-c", "--configDir" }, description = "SyncAws config directory")
 	private String configDir;
 
-	@Parameter(names = { "-p", "--project" }, description = "Project name")
-	private String project = null;
-
-	@Parameter(names = { "--dir" }, description = "Project directory")
-	private String dir = null;
-
 	@Parameter(names = { "--debug" }, description = "Enable debug logging")
 	private boolean debug = false;
 
-	@Parameter(names = { "--dry-run" }, description = "Dry run for upload")
-	private boolean dryrun = false;
-
 	@Parameter
-	private List<String> tasks = Lists.newArrayList();
+	private List<String> args = Lists.newArrayList();
 
 	public CommandLineArgs() {
 	}
 
-	CommandLineArgs(String configDir, String project, boolean debug,
-			List<String> tasks, String dir, boolean dryRun) {
+	CommandLineArgs(String configDir, boolean debug, List<String> args) {
 		this.configDir = configDir;
-		this.project = project;
 		this.debug = debug;
-		this.tasks = tasks;
-		this.dryrun = dryRun;
-		this.dir = dir;
+		this.args = args;
 	}
 
 	public String getConfigDir() {
 		return configDir;
 	}
 
-	public String getProject() {
-		return project;
-	}
-
-	public String getDir() {
-		return dir;
-	}
-
 	public boolean isDebug() {
 		return debug;
 	}
 
-	public boolean isDryrun() {
-		return dryrun;
+	public String getTask() {
+		if (args.size() > 0) {
+			return args.get(0);
+		}
+		return null;
 	}
 
-	public List<String> getTasks() {
-		return Collections.unmodifiableList(tasks);
+	public List<String> getArgs() {
+		if (args.size() > 1) {
+			return Collections.unmodifiableList(args.subList(1, args.size()));
+		}
+		return Collections.emptyList();
 	}
 }

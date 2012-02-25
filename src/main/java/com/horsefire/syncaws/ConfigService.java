@@ -87,6 +87,15 @@ public class ConfigService {
 		return Collections.unmodifiableCollection(Arrays.asList(projects));
 	}
 
+	public Project getProject(String name) {
+		for (Project project : getConfig().projects) {
+			if (project.getName().equals(name)) {
+				return project;
+			}
+		}
+		return null;
+	}
+
 	public void addProject(Project project) {
 		LOG.debug("Adding new project: {}", project);
 		Project[] projects = new Project[getConfig().projects.length + 1];

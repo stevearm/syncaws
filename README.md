@@ -36,3 +36,15 @@ Assuming syncaws is a script to run `java -jar syncaws.jar --configDir <configDi
 3. Upload the new index
 4. Upload all new files
 5. Update the display files to add the new index as the newest
+
+`syncaws list`
+
+1. List all project names
+
+`syncaws version`
+
+1. Display the version
+
+`syncaws help`
+
+1. Display help
